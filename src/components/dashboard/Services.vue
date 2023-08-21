@@ -49,7 +49,10 @@ export default {
     },
   },
   async mounted() {
-    let { data, error } = await supabase.from("services").select("*");
+    const { data: authData, error: authError } = await supabase.auth.getSession();
+    let authUserId = authData.session.user.id;
+    let { data: userData, userError } = await supabase.from("users").select("*").eq("user_id", authUserId);
+    let { data, error } = await supabase.from("services").select("*").eq("user_id", userData[0].user_id);
     this.services = data;
   },
 };

@@ -9,7 +9,10 @@ import Calendarview from "../views/Calendarview.vue";
 import SettingsView from "../views/SettingsView.vue";
 import { supabase } from "../lib/supabaseClient";
 
-let { data, error } = await supabase.from("users").select("*");
+const { data: authData, error: authError } = await supabase.auth.getSession();
+let authUserId = authData.session.user.id;
+
+let { data, error } = await supabase.from("users").select("*").eq("user_id", authUserId);
 let userData = data[0];
 let accountType = userData?.account_type;
 
@@ -29,7 +32,7 @@ const router = createRouter({
     {
       path: "/dashboard",
       name: "dashboard",
-      component: accountType === 1 ? DashboardView : DashboardView_Customer,
+      component: accountType === 2 ? DashboardView : DashboardView_Customer,
     },
     {
       path: "/discover",

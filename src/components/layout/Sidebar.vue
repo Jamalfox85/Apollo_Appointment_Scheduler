@@ -2,7 +2,7 @@
   <div class="sidebar_wrapper">
     <div class="logo">
       <p>Apollo</p>
-      <n-tag v-if="userData.account_type === 2" :bordered="false" type="warning"> Business </n-tag>
+      <n-tag v-if="userData?.account_type === 2" :bordered="false" type="warning"> Business </n-tag>
       <n-tag v-else :bordered="false" type="success"> Customer </n-tag>
     </div>
     <nav class="nav-links">
@@ -10,11 +10,11 @@
         <img src="../../assets/icons/dashboard-icon.svg" class="sidebar-icon" />
         Dashboard
       </RouterLink>
-      <RouterLink to="/discover" class="nav-link" v-if="userData.account_type === 2">
+      <RouterLink to="/discover" class="nav-link" v-if="userData?.account_type === 2">
         <Search style="width: 1em; margin-right: 0.5em" />
         Discover
       </RouterLink>
-      <RouterLink to="/calendar" class="nav-link" v-if="userData.account_type === 2">
+      <RouterLink to="/calendar" class="nav-link" v-if="userData?.account_type === 2">
         <img src="../../assets/icons/calendar-icon.svg" class="sidebar-icon" />
         Calendar
       </RouterLink>
@@ -55,8 +55,9 @@ export default {
     },
   },
   async mounted() {
-    let { data, error } = await supabase.from("users").select("*");
-    console.log("USER DATA: ", data[0]);
+    const { data: authData, error: authError } = await supabase.auth.getSession();
+    let authUserId = authData.session.user.id;
+    let { data, error } = await supabase.from("users").select("*").eq("user_id", authUserId);
     this.userData = data[0];
   },
 };
