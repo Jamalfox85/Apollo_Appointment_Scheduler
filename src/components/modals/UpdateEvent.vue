@@ -12,7 +12,7 @@
           :model="model"
           label-placement="left"
           require-mark-placement="right-hanging"
-          :size="size"
+          size="medium"
           label-width="auto"
           :style="{
             maxWidth: '640px',
@@ -22,7 +22,7 @@
             <n-input v-model:value="model.title" placeholder="Hair Appointment With Stacia." />
           </n-form-item>
           <n-form-item label="Time" path="start">
-            <n-date-picker v-model:formatted-value="model.start" type="datetime" value-format="yyyy-MM-dd HH:mm" />
+            <n-date-picker v-model:formatted-value="model.start" type="datetime" value-format="yyyy-MM-dd hh:mm" />
           </n-form-item>
           <n-form-item label="Select A Service" path="services">
             <n-select v-model:value="model.services" placeholder="Select" :options="serviceOptions" multiple />
@@ -101,8 +101,8 @@ export default {
       const start = new Date(eventData.start);
       const end = this.addMinutes(new Date(start), 30);
 
-      let startDateTime = moment(start).format("YYYY-MM-DD HH:mm");
-      let endDateTime = moment(end).format("YYYY-MM-DD HH:mm");
+      let startDateTime = moment(start).format("YYYY-MM-DD hh:mm");
+      let endDateTime = moment(end).format("YYYY-MM-DD hh:mm");
 
       eventData.start = startDateTime;
       eventData.end = endDateTime;

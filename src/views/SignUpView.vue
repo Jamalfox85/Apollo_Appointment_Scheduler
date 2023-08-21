@@ -23,8 +23,11 @@
   </div>
 </template>
 <script>
+import { NConfigProvider, NInput, NDatePicker, NSpace, NForm, NFormItem, NSelect, NSwitch, NButton } from "naive-ui";
+
 import { supabase } from "../lib/supabaseClient";
 export default {
+  components: { NInput, NForm, NFormItem, NDatePicker, NSelect, NSwitch, NButton },
   data() {
     return {
       firstName: null,

@@ -8,9 +8,9 @@
     </div>
     <button @click="logOut">Log Out</button> -->
     <div class="dashboard-left">
-      <Topbar />
+      <!-- <Topbar /> -->
       <Services />
-      <Forecast />
+      <!-- <Forecast /> -->
     </div>
     <div class="dashboard-right">
       <Schedule />
@@ -53,18 +53,16 @@ export default {
 .dashboard_wrapper {
   height: 100vh;
   width: 100%;
-  border: solid 2px red;
   display: flex;
   overflow-y: scroll;
   & > * {
     height: 100%;
+    margin: 0.5em;
   }
   .dashboard-left {
-    border: solid 4px purple;
     width: 70%;
   }
   .dashboard-right {
-    border: solid 4px green;
     flex-grow: 1;
   }
 }

@@ -2,10 +2,16 @@ import { createRouter, createWebHistory } from "vue-router";
 import SignUpView from "../views/SignUpView.vue";
 import LoginView from "../views/LoginView.vue";
 import DashboardView from "../views/DashboardView.vue";
+import DashboardView_Customer from "../views/DashboardView_Customer.vue";
+import DiscoverView_Customer from "../views/DiscoverView_Customer.vue";
 import ClientsView from "../views/ClientsView.vue";
 import Calendarview from "../views/Calendarview.vue";
 import SettingsView from "../views/SettingsView.vue";
 import { supabase } from "../lib/supabaseClient";
+
+let { data, error } = await supabase.from("users").select("*");
+let userData = data[0];
+let accountType = userData?.account_type;
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,7 +29,12 @@ const router = createRouter({
     {
       path: "/dashboard",
       name: "dashboard",
-      component: DashboardView,
+      component: accountType === 1 ? DashboardView : DashboardView_Customer,
+    },
+    {
+      path: "/discover",
+      name: "discover",
+      component: DiscoverView_Customer,
     },
     {
       path: "/clients",

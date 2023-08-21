@@ -9,39 +9,88 @@
       <div class="reviews"></div>
     </div>
     <div class="form-panel">
-      <h1>Log In Here</h1>
-      <form class="login-form" aria-label="Log In to Apollo Appointment Scheduler" @submit.prevent="logIn">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" v-model="email" required />
-        </div>
-
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" v-model="password" required />
-        </div>
-
-        <button class="submit-bttn" type="submit">Log In</button>
-      </form>
+      <n-tabs class="card-tabs" default-value="signup" size="large" animated pane-wrapper-style="margin: 0 -4px" pane-style="padding-left: 4px; padding-right: 4px; box-sizing: border-box;">
+        <n-tab-pane name="login" tab="Log In">
+          <n-form :model="model" size="medium" label-placement="top">
+            <n-form-item label="Email" path="email">
+              <n-input v-model:value="model.email" placeholder="Email" />
+            </n-form-item>
+            <n-form-item label="Password" path="password">
+              <n-input v-model:value="model.password" placeholder="Password" />
+            </n-form-item>
+          </n-form>
+          <n-button color="#654597" @click="logIn">Log In</n-button>
+        </n-tab-pane>
+        <n-tab-pane name="signup" tab="Sign Up">
+          <n-form :model="model" size="medium" label-placement="top">
+            <n-form-item label="First Name" path="options/first_name">
+              <n-input v-model:value="model.options.first_name" placeholder="First Name" />
+            </n-form-item>
+            <n-form-item label="Last Name" path="options/last_name">
+              <n-input v-model:value="model.options.last_name" placeholder="Last Name" />
+            </n-form-item>
+            <n-form-item label="Account Type" path="options/account_type">
+              <n-radio-group v-model:value="model.options.account_type" name="left-size" style="margin-bottom: 12px">
+                <n-radio-button :value="1"> Customer </n-radio-button>
+                <n-radio-button :value="2"> Business </n-radio-button>
+              </n-radio-group>
+            </n-form-item>
+            <n-form-item v-if="model.options.account_type === 2" label="Business Name" path="options/business_name">
+              <n-input v-model:value="model.options.business_name" placeholder="Business Name" />
+            </n-form-item>
+            <n-form-item label="Email" path="email">
+              <n-input v-model:value="model.email" placeholder="Email" />
+            </n-form-item>
+            <n-form-item label="Password" path="password">
+              <n-input v-model:value="model.password" placeholder="Password" />
+            </n-form-item>
+          </n-form>
+          <n-button color="#654597" @click="signUp">Sign Up</n-button>
+        </n-tab-pane>
+      </n-tabs>
     </div>
   </div>
 </template>
 <script>
 import { supabase } from "../lib/supabaseClient";
-
+import { NForm, NFormItem, NInput, NButton, NTabs, NTabPane, NRadioGroup, NRadioButton } from "naive-ui";
 export default {
+  components: { NForm, NFormItem, NInput, NButton, NTabs, NTabPane, NRadioGroup, NRadioButton },
   data() {
     return {
-      email: null,
-      password: null,
+      model: {
+        email: null,
+        password: null,
+        options: {
+          first_name: null,
+          last_name: null,
+          business_name: null,
+          account_type: null,
+        },
+      },
     };
   },
   methods: {
     async logIn() {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: this.email,
-        password: this.password,
-      });
+      let credentials = this.model;
+      const { data, error } = await supabase.auth.signInWithPassword(credentials);
+      if (data.session) {
+        this.$router.push("/dashboard");
+      }
+    },
+    async signUp() {
+      let credentials = this.model;
+      const { data, error } = await supabase.auth.signUp(credentials);
+
+      let newUserData = {
+        user_id: data.user.id,
+        first_name: this.model.options.first_name,
+        last_name: this.model.options.last_name,
+        business_name: this.model.options.business_name,
+        account_type: this.model.options.account_type,
+      };
+      const { data: userData, error: userError } = await supabase.from("users").insert([newUserData]).select();
+
       if (data.session) {
         this.$router.push("/dashboard");
       }
@@ -102,31 +151,17 @@ export default {
     flex-direction: column;
     align-items: center;
     padding: 4em;
-    .login-form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      .form-group {
-        font-size: 18px;
-        margin-top: 1em;
-        label {
-          display: block;
-        }
-      }
-      .submit-bttn {
-        margin-top: 2em;
-        width: fit-content;
-        padding: 0.5em 1em;
-        background-color: #ab81cd;
-        outline: none;
-        border: none;
-        border-radius: 8px;
-        color: #fff;
-        font-weight: bold;
+    .header {
+      margin-bottom: 1em;
+    }
+    .dont-have-account {
+      margin-top: 1em;
+      .sign-up-link {
+        text-decoration: underline;
+        color: #ab81cd;
         cursor: pointer;
         &:hover {
-          background-color: #9f66cd;
-          transition: 0.1s ease-in;
+          color: #9961c7;
         }
       }
     }

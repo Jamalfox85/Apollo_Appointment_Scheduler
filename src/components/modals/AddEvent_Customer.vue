@@ -2,7 +2,7 @@
   <vue-final-modal v-model="modalState" class="vfm_wrapper" :click-to-close="false">
     <div class="modal_wrapper">
       <div class="modal-header">
-        <h2 class="modal-title">Add Event</h2>
+        <h2 class="modal-title">Book: {{ selectedService.title }}</h2>
         <div style="display: flex; justify-content: flex-end">
           <n-button type="error" @click="closeModal"> X </n-button>
         </div>
@@ -18,20 +18,8 @@
             maxWidth: '640px',
           }"
         >
-          <n-form-item label="Title" path="title">
-            <n-input v-model:value="model.title" placeholder="Hair Appointment With Stacia." />
-          </n-form-item>
           <n-form-item label="Time" path="start">
             <n-date-picker v-model:formatted-value="model.start" type="datetime" value-format="yyyy-MM-dd hh:mm" />
-          </n-form-item>
-          <n-form-item label="Select A Service" path="services">
-            <n-select v-model:value="model.services" placeholder="Select" :options="serviceOptions" />
-          </n-form-item>
-          <n-form-item label="Select A Client" path="client">
-            <n-select v-model:value="model.client" placeholder="Select" :options="clientOptions" />
-          </n-form-item>
-          <n-form-item label="Paid?" path="paid">
-            <n-switch v-model:value="model.paid" />
           </n-form-item>
           <n-form-item label="Notes" path="notes">
             <n-input
@@ -61,14 +49,14 @@ import moment from "moment";
 
 export default {
   components: { VueFinalModal, NInput, NForm, NFormItem, NDatePicker, NSelect, NSwitch, NButton },
-  props: ["show"],
+  props: ["show", "selectedService"],
   data() {
     return {
       title: "test",
       model: {
         title: null,
         start: null,
-        services: null,
+        service: null,
         client: null,
         paid: false,
         notes: null,
@@ -78,6 +66,7 @@ export default {
         value: v,
       })),
       serviceOptions: [],
+      userData: {},
     };
   },
   computed: {
@@ -97,6 +86,9 @@ export default {
 
       eventData.start = startDateTime;
       eventData.end = endDateTime;
+      eventData.title = this.selectedService.title;
+      eventData.service = this.selectedService.id;
+      eventData.client = this.userData.id;
 
       const { data, error } = await supabase.from("events").insert([eventData]).select();
       if (data) {
@@ -114,6 +106,8 @@ export default {
     },
   },
   async mounted() {
+    let { data: userData, userError } = await supabase.from("users").select("*");
+    this.userData = userData[0];
     let { data, error } = await supabase.from("services").select("*");
     let serviceArray = data.map((item) => {
       return {

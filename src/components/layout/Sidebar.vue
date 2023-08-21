@@ -2,24 +2,30 @@
   <div class="sidebar_wrapper">
     <div class="logo">
       <p>Apollo</p>
+      <n-tag v-if="userData.account_type === 2" :bordered="false" type="warning"> Business </n-tag>
+      <n-tag v-else :bordered="false" type="success"> Customer </n-tag>
     </div>
     <nav class="nav-links">
       <RouterLink to="/dashboard" class="nav-link">
         <img src="../../assets/icons/dashboard-icon.svg" class="sidebar-icon" />
         Dashboard
       </RouterLink>
-      <RouterLink to="/calendar" class="nav-link">
+      <RouterLink to="/discover" class="nav-link" v-if="userData.account_type === 2">
+        <Search style="width: 1em; margin-right: 0.5em" />
+        Discover
+      </RouterLink>
+      <RouterLink to="/calendar" class="nav-link" v-if="userData.account_type === 2">
         <img src="../../assets/icons/calendar-icon.svg" class="sidebar-icon" />
         Calendar
       </RouterLink>
-      <RouterLink to="/clients" class="nav-link">
+      <!-- <RouterLink to="/clients" class="nav-link">
         <img src="../../assets/icons/clients-icon.svg" class="sidebar-icon" />
         Clients
       </RouterLink>
       <RouterLink to="/settings" class="nav-link">
         <img src="../../assets/icons/settings-icon.svg" class="sidebar-icon" />
         Settings
-      </RouterLink>
+      </RouterLink> -->
     </nav>
     <div class="footer">
       <button @click="logOut" class="nav-link" role="button" aria-label="Log Out">
@@ -31,8 +37,15 @@
 </template>
 <script>
 import { supabase } from "../../lib/supabaseClient";
-
+import { Search } from "@vicons/ionicons5";
+import { NTag } from "naive-ui";
 export default {
+  components: { NTag, Search },
+  data() {
+    return {
+      userData: {},
+    };
+  },
   methods: {
     async logOut() {
       const { error } = await supabase.auth.signOut();
@@ -40,6 +53,11 @@ export default {
         this.$router.push("/login");
       }
     },
+  },
+  async mounted() {
+    let { data, error } = await supabase.from("users").select("*");
+    console.log("USER DATA: ", data[0]);
+    this.userData = data[0];
   },
 };
 </script>
@@ -51,14 +69,18 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1em;
+  padding: 1em 0.5em;
   .logo {
     width: 100%;
     height: 90px;
     margin-bottom: 2em;
+    margin-left: 2em;
+    display: flex;
+    align-items: center;
     p {
       font-size: 24px;
       color: #f8f4f9;
+      margin-right: 1em;
     }
   }
   .nav-links,
@@ -73,7 +95,7 @@ export default {
       cursor: pointer;
       text-decoration: none;
       padding: 0.5em;
-      border-radius: 12px;
+      border-radius: 4px;
       color: #f8f4f9;
       background-color: none;
       .sidebar-icon {

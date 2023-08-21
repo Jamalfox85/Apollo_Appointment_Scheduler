@@ -50,6 +50,7 @@ export default {
   props: ["show"],
   data() {
     return {
+      userData: {},
       services: [],
       model: {
         title: null,
@@ -85,6 +86,8 @@ export default {
   methods: {
     async submitNewService() {
       let serviceData = this.model;
+      serviceData.user_id = this.userData.user_id;
+      serviceData.business_name = this.userData.business_name;
       console.log("DATA: ", serviceData);
       const { data, error } = await supabase.from("services").insert([serviceData]).select();
       this.closeDrawer();
@@ -101,6 +104,10 @@ export default {
     closeDrawer() {
       this.$emit("close");
     },
+  },
+  async mounted() {
+    let { data: userData, userError } = await supabase.from("users").select("*");
+    this.userData = userData[0];
   },
 };
 </script>
