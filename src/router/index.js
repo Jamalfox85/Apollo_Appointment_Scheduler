@@ -1,3 +1,4 @@
+import { ref } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 import SignUpView from "../views/SignUpView.vue";
 import LoginView from "../views/LoginView.vue";
@@ -9,12 +10,16 @@ import Calendarview from "../views/Calendarview.vue";
 import SettingsView from "../views/SettingsView.vue";
 import { supabase } from "../lib/supabaseClient";
 
-const { data: authData, error: authError } = await supabase.auth.getSession();
-let authUserId = authData.session.user.id;
+const authUserId = ref();
+const accountType = ref(2);
 
-let { data, error } = await supabase.from("users").select("*").eq("user_id", authUserId);
-let userData = data[0];
-let accountType = userData?.account_type;
+const { data: authData, error: authError } = await supabase.auth.getSession();
+if (authData.session) {
+  authUserId.value = authData.session.user.id;
+  let { data, error } = await supabase.from("users").select("*").eq("user_id", authUserId.value);
+  let userData = data[0];
+  accountType.value = userData.account_type;
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,7 +37,7 @@ const router = createRouter({
     {
       path: "/dashboard",
       name: "dashboard",
-      component: accountType === 2 ? DashboardView : DashboardView_Customer,
+      component: accountType.value === 2 ? DashboardView : DashboardView_Customer,
     },
     {
       path: "/discover",
