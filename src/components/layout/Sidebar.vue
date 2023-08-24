@@ -10,7 +10,7 @@
         <img src="../../assets/icons/dashboard-icon.svg" class="sidebar-icon" />
         Dashboard
       </RouterLink>
-      <RouterLink to="/discover" class="nav-link" v-if="userData?.account_type === 2">
+      <RouterLink to="/discover" class="nav-link" v-if="userData?.account_type === 1">
         <Search style="width: 1em; margin-right: 0.5em" />
         Discover
       </RouterLink>
@@ -18,11 +18,11 @@
         <img src="../../assets/icons/calendar-icon.svg" class="sidebar-icon" />
         Calendar
       </RouterLink>
-      <!-- <RouterLink to="/clients" class="nav-link">
+      <RouterLink to="/clients" class="nav-link" v-if="userData?.account_type === 2">
         <img src="../../assets/icons/clients-icon.svg" class="sidebar-icon" />
         Clients
       </RouterLink>
-      <RouterLink to="/settings" class="nav-link">
+      <!-- <RouterLink to="/settings" class="nav-link">
         <img src="../../assets/icons/settings-icon.svg" class="sidebar-icon" />
         Settings
       </RouterLink> -->

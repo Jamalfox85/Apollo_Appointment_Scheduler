@@ -10,7 +10,6 @@ export default {};
 .clients_wrapper {
   height: 100vh;
   width: 100%;
-  border: solid 4px rgb(255, 0, 55);
   display: flex;
   overflow-y: scroll;
 }
