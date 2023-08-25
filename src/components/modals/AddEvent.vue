@@ -25,11 +25,10 @@
             <n-date-picker v-model:formatted-value="model.start" type="datetime" value-format="yyyy-MM-dd hh:mm" />
           </n-form-item>
           <n-form-item label="Select A Service" path="services">
-            <n-select v-model:value="model.services" placeholder="Select" :options="serviceOptions" />
+            <n-select v-model:value="model.service" placeholder="Select" :options="serviceOptions" />
           </n-form-item>
           <n-form-item label="Select A Client" path="client">
             <n-select v-model:value="model.client" placeholder="Select" :options="clientOptions" :default-value="activeClientId" />
-            <n-button style="margin-left: 1em" color="#222a68" @click="showAddUserDrawer = true">+</n-button>
           </n-form-item>
           <n-form-item label="Paid?" path="paid">
             <n-switch v-model:value="model.paid" />
@@ -51,34 +50,6 @@
         </n-form>
       </div>
     </div>
-    <n-drawer v-model:show="showAddUserDrawer" :width="502" placement="left">
-      <n-drawer-content title="New Client">
-        <n-form
-          :model="newClientModel"
-          label-placement="left"
-          require-mark-placement="right-hanging"
-          size="medium"
-          label-width="auto"
-          :style="{
-            maxWidth: '640px',
-          }"
-        >
-          <n-form-item label="First Name">
-            <n-input v-model:value="newClientModel.first_name" placeholder="Alan" path="first_name" />
-          </n-form-item>
-          <n-form-item label="Last Name" path="last_name">
-            <n-input v-model:value="newClientModel.last_name" placeholder="Watts" />
-          </n-form-item>
-          <n-form-item label="Phone" path="phone">
-            <n-input v-model:value="newClientModel.last_name" placeholder="(444) 444-4444" />
-          </n-form-item>
-          <n-form-item label="Email" path="email">
-            <n-input v-model:value="newClientModel.last_name" placeholder="email@email.com" />
-          </n-form-item>
-        </n-form>
-        <n-button @click="addNewClient" type="primary"> Submit </n-button>
-      </n-drawer-content>
-    </n-drawer>
   </vue-final-modal>
 </template>
 
@@ -97,7 +68,7 @@ export default {
       model: {
         title: null,
         start: null,
-        services: null,
+        service: null,
         client: this.activeClientId,
         paid: false,
         notes: null,
@@ -142,18 +113,14 @@ export default {
       date.setMinutes(date.getMinutes() + minutes);
       return date;
     },
-    async addNewClient() {
-      // const { data, error } = await supabase.from("clients").insert([this.newClientModel]).select();
-      // if (data) {
-      //   console.log("DATA :", data);
-      // }
-      console.log("DATA: ", this.newClientModel);
-    },
     closeModal() {
       this.$emit("closeModal");
     },
   },
   async mounted() {
+    const { data: authData, error: authError } = await supabase.auth.getSession();
+    let authUserId = authData.session.user.id;
+
     let { data: servicesData, error: servicesError } = await supabase.from("services").select("*");
     let serviceArray = servicesData.map((service) => {
       return {
@@ -161,7 +128,7 @@ export default {
         value: service.id,
       };
     });
-    let { data: clientsData, error: clientsError } = await supabase.from("clients").select("*");
+    let { data: clientsData, error: clientsError } = await supabase.from("clients").select("*").eq("business_id", authUserId);
     let ClientsArray = clientsData.map((client) => {
       return {
         label: client.first_name + " " + client.last_name,
