@@ -24,10 +24,10 @@
           <n-select v-model:value="model.time" :options="timeOptions" />
         </n-form-item>
 
-        <n-form-item label="Notes" path="notes">
+        <n-form-item label="Description" path="description">
           <n-input
-            v-model:value="model.notes"
-            placeholder="Notes"
+            v-model:value="model.description"
+            placeholder="Description"
             type="textarea"
             :autosize="{
               minRows: 3,
@@ -56,7 +56,7 @@ export default {
         title: null,
         price: 0,
         time: 30,
-        notes: null,
+        description: null,
       },
       timeOptions: [
         {

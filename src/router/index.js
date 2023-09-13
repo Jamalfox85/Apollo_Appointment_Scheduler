@@ -6,9 +6,11 @@ import DashboardView from "../views/DashboardView.vue";
 import DashboardView_Customer from "../views/DashboardView_Customer.vue";
 import DiscoverView_Customer from "../views/DiscoverView_Customer.vue";
 import ClientsView from "../views/ClientsView.vue";
-import Calendarview from "../views/Calendarview.vue";
+import CalendarView from "../views/CalendarView.vue";
 import SettingsView from "../views/SettingsView.vue";
 import { supabase } from "../lib/supabaseClient";
+
+import BusinessLayout from "../layouts/Business.vue";
 
 const authUserId = ref();
 const accountType = ref(2);
@@ -52,7 +54,7 @@ const router = createRouter({
     {
       path: "/calendar",
       name: "calendar",
-      component: Calendarview,
+      component: CalendarView,
     },
     {
       path: "/settings",

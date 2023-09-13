@@ -16,7 +16,7 @@
               <n-input v-model:value="model.email" placeholder="Email" />
             </n-form-item>
             <n-form-item label="Password" path="password">
-              <n-input v-model:value="model.password" placeholder="Password" />
+              <n-input v-model:value="model.password" placeholder="Password" type="password" />
             </n-form-item>
           </n-form>
           <n-button color="#654597" @click="logIn">Log In</n-button>
@@ -42,7 +42,7 @@
               <n-input v-model:value="model.email" placeholder="Email" />
             </n-form-item>
             <n-form-item label="Password" path="password">
-              <n-input v-model:value="model.password" placeholder="Password" />
+              <n-input v-model:value="model.password" placeholder="Password" type="password" />
             </n-form-item>
           </n-form>
           <n-button color="#654597" @click="signUp">Sign Up</n-button>

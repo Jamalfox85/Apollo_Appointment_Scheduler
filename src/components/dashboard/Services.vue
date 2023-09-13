@@ -8,6 +8,7 @@
     </div>
     <div class="block-body">
       <n-card class="service-card" v-for="service in services" :title="service.title" @click="onServiceClick(service)">
+        <div class="service-img"></div>
         <div class="service-info">
           <b>Price: </b>
           <p>${{ service.price }}</p>
@@ -15,6 +16,10 @@
         <div class="service-info">
           <b>Time: </b>
           <p>{{ service.time }} minutes</p>
+        </div>
+        <div class="service-info">
+          <b>Description: </b>
+          <p>{{ service.description }}</p>
         </div>
       </n-card>
     </div>
@@ -68,14 +73,38 @@ export default {
     justify-content: space-between;
     margin-bottom: 1em;
   }
-  .service-card {
-    box-shadow: 0.3px 0.5px 0.7px hsl(286deg 21% 68% / 0.28), 0.8px 1.6px 2px -0.8px hsl(286deg 21% 68% / 0.28), 2.1px 4.1px 5.2px -1.7px hsl(286deg 21% 68% / 0.28), 5px 10px 12.6px -2.5px hsl(286deg 21% 68% / 0.28);
-    margin: 1em;
-  }
-  .service-info {
+  .block-body {
     display: flex;
-    b {
-      margin-right: 0.5em;
+    flex-wrap: wrap;
+    .service-card {
+      box-shadow: 0.3px 0.5px 0.7px hsl(286deg 21% 68% / 0.28), 0.8px 1.6px 2px -0.8px hsl(286deg 21% 68% / 0.28), 2.1px 4.1px 5.2px -1.7px hsl(286deg 21% 68% / 0.28), 5px 10px 12.6px -2.5px hsl(286deg 21% 68% / 0.28);
+      margin: 1em;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      width: 375px;
+      // width: 30%;
+      // min-width: 450px;
+      .service-img {
+        width: 100%;
+        border: solid 2px blue;
+        height: 125px;
+        margin-bottom: 0.5em;
+      }
+      .service-info {
+        display: flex;
+        flex-wrap: wrap;
+        b {
+          margin-right: 0.5em;
+        }
+        p {
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 3;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
     }
   }
 }

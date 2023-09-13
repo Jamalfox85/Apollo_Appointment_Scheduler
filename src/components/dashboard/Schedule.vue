@@ -6,8 +6,8 @@
         <n-button class="add-event-bttn" color="#222a68" @click="showAddEventModal = true"> + </n-button>
       </div>
     </div>
-    <VueCal class="vue-cal" active-view="day" :events="events" :time-from="8 * 60" :time-to="20 * 60" :time-step="15" hide-weekends :twelveHour="true" :disable-views="['years', 'year', 'month', 'week']" :todayButton="false" :snapToTime="15" :disable-days="unavailableDays" :hide-weekdays="hiddenWeekdays" :on-event-click="onEventClick">
-      <template #time-cell="{ hours, minutes }" #twelve-hour="true">
+    <VueCal class="vue-cal" active-view="day" :events="events" :time-from="8 * 60" :time-to="20 * 60" :time-step="15" hide-weekends :twelveHour="true" :disable-views="['years', 'year', 'month', 'week']" :todayButton="false" :snapToTime="15" :disable-days="unavailableDays" :hide-weekdays="hiddenWeekdays" :on-event-click="onEventClick" :timeFormat="'hh'">
+      <template #time-cell="{ hours, minutes }" #twelve-hour="true" :timeFormat="'hh'">
         <div :class="{ 'vuecal__time-cell-line': true, hours: !minutes }">
           <strong v-if="!minutes" style="font-size: 15px">{{ hours }}</strong>
           <span v-else style="font-size: 11px">{{ minutes }}</span>

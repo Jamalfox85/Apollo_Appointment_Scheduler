@@ -21,7 +21,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="app_wrapper">
+  <div class="app_wrapper" :is="$route.meta.layout || 'div'">
     <Sidebar v-if="userIsAuthenticated" />
     <RouterView />
     <ModalsContainer />

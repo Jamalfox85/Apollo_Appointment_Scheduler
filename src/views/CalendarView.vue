@@ -1,7 +1,7 @@
 <template lang="">
   <div class="calendar_wrapper">
     <n-button class="add-event-calendar-bttn" color="#222a68" @click="showAddEventModal = true"> + </n-button>
-    <VueCal :events="events" :time-from="8 * 60" :time-to="20 * 60" :time-step="15" hide-weekends :time-cell-height="30" events-on-month-view="short" :twelveHour="true" :on-event-click="onEventClick" :disable-days="unavailableDays" :hide-weekdays="hiddenWeekdays" :disable-views="['years', 'year']">
+    <VueCal :events="events" :time-from="8 * 60" :time-to="20 * 60" :time-step="15" hide-weekends :time-cell-height="30" events-on-month-view="short" twelve-hour="true" time-format="hh" :on-event-click="onEventClick" :disable-days="unavailableDays" :hide-weekdays="hiddenWeekdays" :disable-views="['years', 'year']">
       <template #time-cell="{ hours, minutes }">
         <div :class="{ 'vuecal__time-cell-line': true, hours: !minutes }">
           <strong v-if="!minutes" style="font-size: 15px">{{ hours }}</strong>

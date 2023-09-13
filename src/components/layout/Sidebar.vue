@@ -10,7 +10,8 @@
         <img src="../../assets/icons/dashboard-icon.svg" class="sidebar-icon" />
         Dashboard
       </RouterLink>
-      <RouterLink to="/discover" class="nav-link" v-if="userData?.account_type === 1">
+      <!-- Change This To Be Custoemr Only -- userData?.account_type === 1 -->
+      <RouterLink to="/discover" class="nav-link" v-if="userData?.account_type === 2">
         <Search style="width: 1em; margin-right: 0.5em" />
         Discover
       </RouterLink>
@@ -22,10 +23,10 @@
         <img src="../../assets/icons/clients-icon.svg" class="sidebar-icon" />
         Clients
       </RouterLink>
-      <!-- <RouterLink to="/settings" class="nav-link">
+      <RouterLink to="/settings" class="nav-link">
         <img src="../../assets/icons/settings-icon.svg" class="sidebar-icon" />
         Settings
-      </RouterLink> -->
+      </RouterLink>
     </nav>
     <div class="footer">
       <button @click="logOut" class="nav-link" role="button" aria-label="Log Out">
