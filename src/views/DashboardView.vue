@@ -1,16 +1,9 @@
 <template>
   <main class="dashboard_wrapper">
-    <!-- <h1>Account Page</h1>
-    <div v-if="userData">
-      <p>First Name: {{ userData.user_metadata.first_name }}</p>
-      <p>Last Name: {{ userData.user_metadata.last_name }}</p>
-      <p>Email: {{ userData.email }}</p>
-    </div>
-    <button @click="logOut">Log Out</button> -->
     <div class="dashboard-left">
-      <!-- <Topbar /> -->
+      <Topbar />
       <Services />
-      <!-- <Forecast /> -->
+      <Forecast />
     </div>
     <div class="dashboard-right">
       <Schedule />
@@ -51,7 +44,7 @@ export default {
 
 <style lang="scss">
 .dashboard_wrapper {
-  height: 100vh;
+  // height: 100vh;
   width: 100%;
   display: flex;
   overflow-y: scroll;
