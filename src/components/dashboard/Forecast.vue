@@ -6,6 +6,7 @@
         <h3 class="tab-header">Day</h3>
         <div class="stats">
           <n-statistic label="Bookings"> 2 </n-statistic>
+          <n-statistic label="Hours"> 20 </n-statistic>
           <n-statistic label="Revenue"> $200 </n-statistic>
         </div>
       </n-tab-pane>
@@ -13,6 +14,7 @@
         <h3 class="tab-header">Week</h3>
         <div class="stats">
           <n-statistic label="Bookings"> 2 </n-statistic>
+          <n-statistic label="Hours"> 20 </n-statistic>
           <n-statistic label="Revenue"> $200 </n-statistic>
         </div>
       </n-tab-pane>
@@ -20,13 +22,15 @@
         <h3 class="tab-header">Month</h3>
         <div class="stats">
           <n-statistic label="Bookings"> 2 </n-statistic>
+          <n-statistic label="Hours"> 20 </n-statistic>
           <n-statistic label="Revenue"> $200 </n-statistic>
         </div>
       </n-tab-pane>
       <n-tab-pane class="tab" name="year" tab="Year">
         <h3 class="tab-header">Year</h3>
         <div class="stats">
-          <n-statistic label="Bookings"> $2 </n-statistic>
+          <n-statistic label="Bookings"> 2 </n-statistic>
+          <n-statistic label="Hours"> 20 </n-statistic>
           <n-statistic label="Revenue"> $200 </n-statistic>
         </div>
       </n-tab-pane>
@@ -48,12 +52,6 @@ export default {
   width: 50%;
   position: relative;
   padding: 1em;
-  border: solid 2px salmon;
-  .n-tabs-nav--top {
-    // position: absolute;
-    // top: 1em;
-    // right: 1em;
-  }
   .tab-headers {
     display: flex;
     .tab-header {
@@ -61,6 +59,7 @@ export default {
     }
     .stats {
       display: flex;
+      justify-content: space-evenly;
       & > * {
         margin-right: 1em;
       }

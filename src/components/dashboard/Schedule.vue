@@ -54,20 +54,23 @@ export default {
 <style lang="scss">
 .schedule_wrapper {
   width: 100%;
-  height: 100vh;
+  height: 90vh;
   position: relative;
   display: flex;
   flex-direction: column;
+  .block-header {
+    margin: 4px;
+  }
   .add-event-bttn {
     margin-bottom: 0.5em;
     position: absolute;
-    right: 0.5em;
-    top: 0.5em;
+    right: 1em;
+    top: 0.75em;
   }
 }
 .vue-cal {
-  border: solid 2px red;
   flex-grow: 1;
+  margin-top: 12px;
 }
 .vuecal__no-event {
   display: none;
