@@ -6,18 +6,11 @@ import { ModalsContainer } from "vue-final-modal";
 
 import Sidebar from "./components/layout/Sidebar.vue";
 
-const userIsAuthenticated = ref(false);
-
-async function getSession() {
-  const { data, error } = await supabase.auth.getSession();
-  if (data.session) {
-    userIsAuthenticated.value = true;
-  }
-}
-
-onMounted(() => {
-  getSession();
-});
+import { useStore } from "./stores/store";
+const store = useStore();
+store.setSession();
+store.setUserData();
+const userIsAuthenticated = ref(store.getSession ? true : false);
 </script>
 
 <template>

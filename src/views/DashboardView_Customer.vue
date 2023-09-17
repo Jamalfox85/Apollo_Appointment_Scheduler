@@ -30,7 +30,7 @@ export default {
   async created() {
     const { data, error } = await supabase.auth.getSession();
     this.userData = data.session.user;
-    console.log("SESSION DATA: ", data);
+    // console.log("SESSION DATA: ", data);
   },
 };
 </script>

@@ -73,15 +73,16 @@ export default {
   }
   .block-body {
     display: flex;
+    overflow-x: scroll;
     // flex-grow: 1;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
     .service-card {
       box-shadow: 0.3px 0.5px 0.7px hsl(286deg 21% 68% / 0.28), 0.8px 1.6px 2px -0.8px hsl(286deg 21% 68% / 0.28), 2.1px 4.1px 5.2px -1.7px hsl(286deg 21% 68% / 0.28), 5px 10px 12.6px -2.5px hsl(286deg 21% 68% / 0.28);
       margin: 1em;
       display: flex;
       flex-direction: column;
       cursor: pointer;
-      width: 375px;
+      min-width: 375px;
       .service-info {
         display: flex;
         flex-wrap: wrap;
@@ -96,6 +97,22 @@ export default {
           text-overflow: ellipsis;
         }
       }
+    }
+    &::-webkit-scrollbar {
+      height: 6px;
+      cursor: pointer;
+    }
+    &::-webkit-scrollbar-track {
+      background: rgb(211, 210, 210);
+      border-radius: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #222a68;
+      border-radius: 4px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: #3e4bb4;
+      cursor: pointer;
     }
   }
 }

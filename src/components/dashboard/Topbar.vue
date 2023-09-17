@@ -1,6 +1,6 @@
 <template lang="">
   <div class="dashboard_topbar_wrapper">
-    <h1>Topbar</h1>
+    <h1 class="primary-dashboard-title">Topbar</h1>
   </div>
 </template>
 <script>
@@ -10,6 +10,11 @@ export default {};
 .dashboard_topbar_wrapper {
   width: 100%;
   height: 100px;
-  border: solid 4px orchid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .primary-dashboard-title {
+    font-size: 2.5em !important;
+  }
 }
 </style>

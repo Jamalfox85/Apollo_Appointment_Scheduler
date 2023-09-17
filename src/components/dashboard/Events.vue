@@ -52,7 +52,7 @@ export default {
   },
   async mounted() {
     let { data, error } = await supabase.from("events").select("*");
-    console.log("EVENTS: ", data);
+    // console.log("EVENTS: ", data);
     this.events = data;
   },
 };
