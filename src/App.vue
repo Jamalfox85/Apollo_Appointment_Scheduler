@@ -8,9 +8,13 @@ import Sidebar from "./components/layout/Sidebar.vue";
 
 import { useStore } from "./stores/store";
 const store = useStore();
-store.setSession();
-store.setUserData();
 const userIsAuthenticated = ref(store.getSession ? true : false);
+
+onMounted(async () => {
+  await store.setSession();
+  await store.setUserData();
+  await store.setServiceData();
+});
 </script>
 
 <template>

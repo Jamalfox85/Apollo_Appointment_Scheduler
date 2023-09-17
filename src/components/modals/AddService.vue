@@ -14,6 +14,9 @@
           maxWidth: '450px',
         }"
       >
+        <n-form-item label="Active" path="active">
+          <n-switch v-model:value="model.active" />
+        </n-form-item>
         <n-form-item label="Title" path="title">
           <n-input v-model:value="model.title" placeholder="Manicure" />
         </n-form-item>
@@ -43,16 +46,16 @@
   </n-drawer>
 </template>
 <script>
-import { NConfigProvider, NInput, NDatePicker, NSpace, NForm, NFormItem, NSelect, NSwitch, NButton, NDrawerContent, NDrawer, NInputNumber } from "naive-ui";
-import { supabase } from "../../lib/supabaseClient";
+import { useStore } from "../../stores/store";
+import { formattingService } from "../../services/formattingService";
+import { NInput, NForm, NFormItem, NSelect, NSwitch, NButton, NDrawerContent, NDrawer, NInputNumber } from "naive-ui";
 export default {
-  components: { NDrawerContent, NDrawer, NForm, NFormItem, NButton, NInput, NInputNumber, NSelect },
+  components: { NDrawerContent, NDrawer, NForm, NFormItem, NButton, NInput, NInputNumber, NSelect, NSwitch },
   props: ["show"],
   data() {
     return {
-      userData: {},
-      services: [],
       model: {
+        active: false,
         title: null,
         price: 0,
         time: 30,
@@ -86,30 +89,22 @@ export default {
   methods: {
     async submitNewService() {
       let serviceData = this.model;
-      serviceData.user_id = this.userData.user_id;
-      serviceData.business_name = this.userData.business_name;
-      console.log("DATA: ", serviceData);
-      const { data, error } = await supabase.from("services").insert([serviceData]).select();
+      this.store.addService(serviceData);
       this.closeDrawer();
     },
     parseCurrency: (input) => {
-      const nums = input.replace(/(,|\$|\s)/g, "").trim();
-      if (/^\d+(\.(\d+)?)?$/.test(nums)) return Number(nums);
-      return nums === "" ? null : Number.NaN;
+      return formattingService.parseCurrency(input);
     },
     formatCurrency: (value) => {
-      if (value === null) return "";
-      return `$ ${value.toLocaleString("en-US")}`;
+      return formattingService.formatCurrency(value);
     },
     closeDrawer() {
       this.$emit("close");
     },
   },
-  async mounted() {
-    const { data: authData, error: authError } = await supabase.auth.getSession();
-    let authUserId = authData.session.user.id;
-    let { data: userData, userError } = await supabase.from("users").select("*").eq("user_id", authUserId);
-    this.userData = userData[0];
+  setup() {
+    const store = useStore();
+    return { store };
   },
 };
 </script>

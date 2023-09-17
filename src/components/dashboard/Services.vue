@@ -3,11 +3,13 @@
     <div class="block-header">
       <h1>Services</h1>
       <div style="display: flex; justify-content: flex-end">
-        <n-button color="#222a68" @click="showAddDrawer = true"> + </n-button>
+        <n-button size="small" color="#222a68" @click="showAddDrawer = true"> + </n-button>
       </div>
     </div>
     <div class="block-body">
-      <n-card class="service-card" v-for="service in services" :title="service.title" @click="onServiceClick(service)">
+      <n-card class="service-card" v-for="service in getServiceData" :title="service.title">
+        <n-switch class="toggle-service" v-model:value="service.active" @update:value="onActiveStateChange(service)" />
+        <n-button class="update-service" size="small" color="#222a68" @click="onServiceClick(service)"> Update </n-button>
         <div class="service-info">
           <b>Price: </b>
           <p>${{ service.price }}</p>
@@ -27,23 +29,18 @@
   </div>
 </template>
 <script>
-import { NInput, NForm, NFormItem, NButton, NDrawerContent, NDrawer, NCard } from "naive-ui";
-import { supabase } from "../../lib/supabaseClient";
+import { useStore } from "../../stores/store";
 import AddService from "../modals/AddService.vue";
 import UpdateService from "../modals/UpdateService.vue";
+import { NButton, NCard, NSwitch } from "naive-ui";
 
 export default {
-  components: { NDrawerContent, NDrawer, NForm, NFormItem, NButton, NInput, AddService, UpdateService, NCard },
+  components: { NButton, AddService, UpdateService, NCard, NSwitch },
   data() {
     return {
-      services: [],
       showAddDrawer: false,
       showUpdateDrawer: false,
-      model: {
-        title: null,
-      },
       activeService: null,
-      userData: {},
     };
   },
   methods: {
@@ -51,19 +48,26 @@ export default {
       this.activeService = service;
       this.showUpdateDrawer = true;
     },
+    onActiveStateChange(service) {
+      this.store.updateActiveState(service);
+    },
   },
-  async mounted() {
-    const { data: authData, error: authError } = await supabase.auth.getSession();
-    let authUserId = authData.session.user.id;
-    let { data: userData, userError } = await supabase.from("users").select("*").eq("user_id", authUserId);
-    let { data, error } = await supabase.from("services").select("*").eq("user_id", userData[0].user_id);
-    this.services = data;
+  computed: {
+    getServiceData() {
+      let services = this.store.getServiceData;
+      return services;
+    },
+  },
+  setup() {
+    const store = useStore();
+    return { store };
   },
 };
 </script>
 <style lang="scss">
 .services_wrapper {
   width: 100%;
+  height: 300px;
   padding: 0.5em;
   .block-header {
     display: flex;
@@ -73,9 +77,7 @@ export default {
   }
   .block-body {
     display: flex;
-    overflow-x: scroll;
-    // flex-grow: 1;
-    // flex-wrap: wrap;
+    overflow-x: auto;
     .service-card {
       box-shadow: 0.3px 0.5px 0.7px hsl(286deg 21% 68% / 0.28), 0.8px 1.6px 2px -0.8px hsl(286deg 21% 68% / 0.28), 2.1px 4.1px 5.2px -1.7px hsl(286deg 21% 68% / 0.28), 5px 10px 12.6px -2.5px hsl(286deg 21% 68% / 0.28);
       margin: 1em;
@@ -83,6 +85,17 @@ export default {
       flex-direction: column;
       cursor: pointer;
       min-width: 375px;
+      position: relative;
+      .toggle-service {
+        position: absolute;
+        top: 1em;
+        right: 1em;
+      }
+      .update-service {
+        position: absolute;
+        bottom: 1em;
+        right: 1em;
+      }
       .service-info {
         display: flex;
         flex-wrap: wrap;
