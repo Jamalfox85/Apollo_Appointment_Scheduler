@@ -47,5 +47,13 @@ export const useStore = defineStore("store", {
     async updateActiveState(service) {
       const { data, error } = await supabase.from("services").update({ active: service.active }).eq("id", service.id).select();
     },
+    async updateService(service, serviceId) {
+      const { data, error } = await supabase.from("services").update(service).eq("id", serviceId).select();
+    },
+
+    /* Delete Data */
+    async deleteService(serviceId) {
+      const { error } = await supabase.from("services").delete().eq("id", serviceId);
+    },
   },
 });

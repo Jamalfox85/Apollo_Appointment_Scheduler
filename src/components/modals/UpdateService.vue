@@ -4,7 +4,7 @@
       <n-button class="close-bttn" type="error" @click="closeDrawer()"> x </n-button>
     </div>
     <n-drawer-content title="Update Service">
-      <!-- <n-form
+      <n-form
         :model="model"
         label-placement="left"
         require-mark-placement="right-hanging"
@@ -14,30 +14,83 @@
           maxWidth: '450px',
         }"
       >
+        <n-form-item label="Active" path="active">
+          <n-switch v-model:value="model.active" />
+        </n-form-item>
         <n-form-item label="Title" path="title">
           <n-input v-model:value="model.title" placeholder="Manicure" />
         </n-form-item>
-      </n-form> -->
+        <n-form-item label="Price" path="price">
+          <n-input-number v-model:value="model.price" :parse="parseCurrency" :format="formatCurrency" />
+        </n-form-item>
+        <n-form-item label="Time" path="time">
+          <n-select v-model:value="model.time" :options="timeOptions" />
+        </n-form-item>
+
+        <n-form-item label="Description" path="description">
+          <n-input
+            v-model:value="model.description"
+            placeholder="Description"
+            type="textarea"
+            :autosize="{
+              minRows: 3,
+              maxRows: 5,
+            }"
+          />
+        </n-form-item>
+      </n-form>
       <div style="display: flex; justify-content: flex-end">
+        <n-button color="#222a68" @click="updateService"> Update </n-button>
         <n-button type="error" @click="deleteService"> Delete </n-button>
       </div>
     </n-drawer-content>
   </n-drawer>
 </template>
 <script>
-import { NConfigProvider, NInput, NDatePicker, NSpace, NForm, NFormItem, NSelect, NSwitch, NButton, NDrawerContent, NDrawer } from "naive-ui";
+import { useStore } from "../../stores/store";
+import { formattingService } from "../../services/formattingService";
+import { NInput, NForm, NFormItem, NSelect, NSwitch, NButton, NDrawerContent, NDrawer, NInputNumber } from "naive-ui";
 import { supabase } from "../../lib/supabaseClient";
 export default {
-  components: { NDrawerContent, NDrawer, NForm, NFormItem, NButton, NInput },
+  components: { NDrawerContent, NDrawer, NForm, NFormItem, NButton, NInput, NSwitch, NInputNumber, NSelect },
   props: ["show", "service"],
   data() {
     return {
-      services: [],
       model: {
-        user_id: "17ab1f39-8889-44a2-b9b7-2f44040c53ed",
+        active: false,
         title: null,
+        price: 0,
+        time: 30,
+        description: null,
       },
+      timeOptions: [
+        {
+          label: "15 minutes",
+          value: 15,
+        },
+        {
+          label: "30 minutes",
+          value: 30,
+        },
+        {
+          label: "45 minutes",
+          value: 45,
+        },
+        {
+          label: "60 minutes",
+          value: 60,
+        },
+      ],
     };
+  },
+  watch: {
+    service: function () {
+      this.model.active = this.service.active;
+      this.model.title = this.service.title;
+      this.model.price = this.service.price;
+      this.model.time = this.service.time;
+      this.model.description = this.service.description;
+    },
   },
   computed: {
     drawerState() {
@@ -45,18 +98,27 @@ export default {
     },
   },
   methods: {
-    async submitNewService() {
-      let serviceData = this.model;
-      const { data, error } = await supabase.from("services").insert([serviceData]).select();
+    updateService() {
+      this.store.updateService(this.model, this.service.id);
       this.closeDrawer();
     },
     async deleteService() {
-      const { error } = await supabase.from("services").delete().eq("id", this.service.id);
+      this.store.deleteService(this.service.id);
       this.closeDrawer();
+    },
+    parseCurrency: (input) => {
+      return formattingService.parseCurrency(input);
+    },
+    formatCurrency: (value) => {
+      return formattingService.formatCurrency(value);
     },
     closeDrawer() {
       this.$emit("close");
     },
+  },
+  setup() {
+    const store = useStore();
+    return { store };
   },
 };
 </script>
