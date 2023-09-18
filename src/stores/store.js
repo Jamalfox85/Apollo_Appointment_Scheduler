@@ -7,7 +7,9 @@ export const useStore = defineStore("store", {
     authUserId: null,
     sessionData: {},
     userData: {},
-    serviceData: {},
+    serviceData: [],
+    eventData: [],
+    clientData: [],
   }),
   getters: {
     getSession(state) {
@@ -18,6 +20,12 @@ export const useStore = defineStore("store", {
     },
     getServiceData(state) {
       return state.serviceData;
+    },
+    getEventData(state) {
+      return state.eventData;
+    },
+    getClientData(state) {
+      return state.clientData;
     },
   },
   actions: {
@@ -35,12 +43,24 @@ export const useStore = defineStore("store", {
       const { data: services, error } = await supabase.from("services").select("*").eq("user_id", this.authUserId);
       this.serviceData = services;
     },
+    async setEventData() {
+      const { data: events, error } = await supabase.from("events").select("");
+      this.eventData = events;
+    },
+    async setClientData() {
+      const { data: clients, error } = await supabase.from("clients").select("*").eq("business_id", this.authUserId);
+      this.clientData = clients;
+    },
 
     /* Add Data */
     async addService(serviceData) {
       serviceData.user_id = this.authUserId;
       serviceData.business_name = this.userData.business_name;
       const { data, error } = await supabase.from("services").insert([serviceData]).select();
+    },
+    async addEvent(eventData) {
+      eventData.user_id = this.authUserId;
+      const { data, error } = await supabase.from("events").insert([eventData]).select();
     },
 
     /* Update Data */
@@ -50,10 +70,16 @@ export const useStore = defineStore("store", {
     async updateService(service, serviceId) {
       const { data, error } = await supabase.from("services").update(service).eq("id", serviceId).select();
     },
+    async updateEvent(event, eventId) {
+      const { data, error } = await supabase.from("events").update(event).eq("id", eventId).select();
+    },
 
     /* Delete Data */
     async deleteService(serviceId) {
       const { error } = await supabase.from("services").delete().eq("id", serviceId);
+    },
+    async deleteEvent(eventId) {
+      const { error } = await supabase.from("events").delete().eq("id", eventId);
     },
   },
 });

@@ -1,11 +1,11 @@
 <template>
-  <vue-final-modal v-model="modalState" class="vfm_wrapper" :click-to-close="false">
-    <div class="modal_wrapper">
+  <n-drawer v-model:show="modalState" :width="750" placement="left" :mask-closable="false">
+    <div style="display: flex; justify-content: flex-end">
+      <n-button class="close-bttn" type="error" @click="closeDrawer()"> x </n-button>
+    </div>
+    <n-drawer-content class="modal_wrapper">
       <div class="modal-header">
         <h2 class="modal-title">Add Event</h2>
-        <div style="display: flex; justify-content: flex-end">
-          <n-button type="error" @click="closeModal"> X </n-button>
-        </div>
       </div>
       <div class="modal-body">
         <n-form
@@ -22,13 +22,13 @@
             <n-input v-model:value="model.title" placeholder="Hair Appointment With Stacia." />
           </n-form-item>
           <n-form-item label="Time" path="start">
-            <n-date-picker v-model:formatted-value="model.start" type="datetime" value-format="yyyy-MM-dd hh:mm" />
+            <n-date-picker v-model:formatted-value="model.start" type="datetime" value-format="yyyy-MM-dd HH:mm" />
           </n-form-item>
           <n-form-item label="Select A Service" path="services">
-            <n-select v-model:value="model.service" placeholder="Select" :options="serviceOptions" />
+            <n-select v-model:value="model.service" placeholder="Select" :options="getServiceData" />
           </n-form-item>
           <n-form-item label="Select A Client" path="client">
-            <n-select v-model:value="model.client" placeholder="Select" :options="clientOptions" :default-value="activeClientId" />
+            <n-select v-model:value="model.client" placeholder="Select" :options="getClientData" :default-value="activeClientId" />
           </n-form-item>
           <n-form-item label="Paid?" path="paid">
             <n-switch v-model:value="model.paid" />
@@ -45,15 +45,16 @@
             />
           </n-form-item>
           <div style="display: flex; justify-content: flex-end">
-            <n-button type="primary" @click="submitNewEvent"> Submit </n-button>
+            <n-button color="#222a68" @click="submitNewEvent"> Submit </n-button>
           </div>
         </n-form>
       </div>
-    </div>
-  </vue-final-modal>
+    </n-drawer-content>
+  </n-drawer>
 </template>
 
 <script>
+import { useStore } from "../../stores/store";
 import { VueFinalModal } from "vue-final-modal";
 import { NConfigProvider, NInput, NDatePicker, NSpace, NForm, NFormItem, NSelect, NSwitch, NButton, NDrawer, NDrawerContent } from "naive-ui";
 import { supabase } from "../../lib/supabaseClient";
@@ -64,7 +65,6 @@ export default {
   props: ["show", "activeClientId"],
   data() {
     return {
-      title: "test",
       model: {
         title: null,
         start: null,
@@ -73,18 +73,27 @@ export default {
         paid: false,
         notes: null,
       },
-      newClientModel: {
-        first_name: null,
-        last_name: null,
-        phone: null,
-        email: null,
-      },
-      clientOptions: [],
-      serviceOptions: [],
-      showAddUserDrawer: false,
     };
   },
   computed: {
+    getServiceData() {
+      let services = this.store.getServiceData;
+      return services.map((service) => {
+        return {
+          label: service.title,
+          value: service.id,
+        };
+      });
+    },
+    getClientData() {
+      let clients = this.store.getClientData;
+      return clients.map((client) => {
+        return {
+          label: client.first_name + " " + client.last_name,
+          value: client.id,
+        };
+      });
+    },
     modalState() {
       return this.show;
     },
@@ -96,69 +105,29 @@ export default {
       const start = new Date(eventData.start);
       const end = this.addMinutes(new Date(start), 30);
 
-      let startDateTime = moment(start).format("YYYY-MM-DD hh:mm");
-      let endDateTime = moment(end).format("YYYY-MM-DD hh:mm");
+      let startDateTime = moment(start).format("YYYY-MM-DD HH:mm");
+      let endDateTime = moment(end).format("YYYY-MM-DD HH:mm");
 
       eventData.start = startDateTime;
       eventData.end = endDateTime;
 
-      const { data, error } = await supabase.from("events").insert([eventData]).select();
-      if (data) {
-        this.closeModal();
-      } else {
-        console.log("ERROR: ", error);
-      }
+      this.store.addEvent(eventData);
+      this.closeDrawer();
     },
     addMinutes(date, minutes) {
       date.setMinutes(date.getMinutes() + minutes);
       return date;
     },
-    closeModal() {
-      this.$emit("closeModal");
+    closeDrawer() {
+      this.$emit("close");
     },
   },
-  async mounted() {
-    const { data: authData, error: authError } = await supabase.auth.getSession();
-    let authUserId = authData.session.user.id;
 
-    let { data: servicesData, error: servicesError } = await supabase.from("services").select("*");
-    let serviceArray = servicesData.map((service) => {
-      return {
-        label: service.title,
-        value: service.id,
-      };
-    });
-    let { data: clientsData, error: clientsError } = await supabase.from("clients").select("*").eq("business_id", authUserId);
-    let ClientsArray = clientsData.map((client) => {
-      return {
-        label: client.first_name + " " + client.last_name,
-        value: client.id,
-      };
-    });
-    this.serviceOptions = serviceArray;
-    this.clientOptions = ClientsArray;
+  setup() {
+    const store = useStore();
+    return { store };
   },
 };
 </script>
 
-<style lang="scss">
-.vfm_wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .modal_wrapper {
-    width: 700px;
-    background-color: #fff;
-    border-radius: 12px;
-    padding: 1em;
-    .modal-header {
-      padding: 0.5em;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .modal-body {
-    }
-  }
-}
-</style>
+<style lang="scss"></style>

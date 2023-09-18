@@ -8,4 +8,9 @@ export const formattingService = {
     if (value === null) return "";
     return `$ ${value.toLocaleString("en-US")}`;
   },
+  formatTime: (hour) => {
+    if (hour > 12) {
+      return hour - 12;
+    } else return hour;
+  },
 };

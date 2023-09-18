@@ -40,7 +40,7 @@
         </n-form-item>
       </n-form>
       <div style="display: flex; justify-content: flex-end">
-        <n-button type="primary" @click="submitNewService"> Submit </n-button>
+        <n-button color="#222a68" @click="submitNewService"> Submit </n-button>
       </div>
     </n-drawer-content>
   </n-drawer>

@@ -14,6 +14,8 @@ onMounted(async () => {
   await store.setSession();
   await store.setUserData();
   await store.setServiceData();
+  await store.setEventData();
+  await store.setClientData();
 });
 </script>
 

@@ -50,7 +50,6 @@
 import { useStore } from "../../stores/store";
 import { formattingService } from "../../services/formattingService";
 import { NInput, NForm, NFormItem, NSelect, NSwitch, NButton, NDrawerContent, NDrawer, NInputNumber } from "naive-ui";
-import { supabase } from "../../lib/supabaseClient";
 export default {
   components: { NDrawerContent, NDrawer, NForm, NFormItem, NButton, NInput, NSwitch, NInputNumber, NSelect },
   props: ["show", "service"],
@@ -83,15 +82,6 @@ export default {
       ],
     };
   },
-  watch: {
-    service: function () {
-      this.model.active = this.service.active;
-      this.model.title = this.service.title;
-      this.model.price = this.service.price;
-      this.model.time = this.service.time;
-      this.model.description = this.service.description;
-    },
-  },
   computed: {
     drawerState() {
       return this.show;
@@ -102,7 +92,7 @@ export default {
       this.store.updateService(this.model, this.service.id);
       this.closeDrawer();
     },
-    async deleteService() {
+    deleteService() {
       this.store.deleteService(this.service.id);
       this.closeDrawer();
     },
@@ -116,6 +106,15 @@ export default {
       this.$emit("close");
     },
   },
+  watch: {
+    service: function () {
+      this.model.active = this.service.active;
+      this.model.title = this.service.title;
+      this.model.price = this.service.price;
+      this.model.time = this.service.time;
+      this.model.description = this.service.description;
+    },
+  },
   setup() {
     const store = useStore();
     return { store };
@@ -125,5 +124,8 @@ export default {
 <style lang="scss">
 .close-bttn {
   margin: 1em;
+}
+.n-button {
+  margin-right: 1em;
 }
 </style>
