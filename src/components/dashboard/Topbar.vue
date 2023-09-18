@@ -26,7 +26,7 @@ export default {
   justify-content: center;
   align-items: center;
   .primary-dashboard-title {
-    font-size: 2.5em !important;
+    font-size: 2em !important;
   }
 }
 </style>

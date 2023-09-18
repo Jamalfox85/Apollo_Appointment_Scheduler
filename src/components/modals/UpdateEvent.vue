@@ -1,55 +1,57 @@
 <template>
-  <n-drawer v-model:show="modalState" :width="500" placement="left" :mask-closable="false">
-    <div style="display: flex; justify-content: flex-end">
-      <n-button class="close-bttn" type="error" @click="closeDrawer()"> x </n-button>
-    </div>
-    <n-drawer-content class="modal_wrapper">
-      <div class="modal-header">
-        <h2 class="modal-title">Update Event</h2>
+  <div>
+    <n-drawer v-model:show="modalState" :width="500" placement="left" :mask-closable="false">
+      <div style="display: flex; justify-content: flex-end">
+        <n-button class="close-bttn" type="error" @click="closeDrawer()"> x </n-button>
       </div>
-      <div class="modal-body">
-        <n-form
-          :model="model"
-          label-placement="left"
-          require-mark-placement="right-hanging"
-          size="medium"
-          label-width="auto"
-          :style="{
-            maxWidth: '640px',
-          }"
-        >
-          <n-form-item label="Title" path="title">
-            <n-input v-model:value="model.title" placeholder="Hair Appointment With Stacia." />
-          </n-form-item>
-          <n-form-item label="Select A Service" path="services">
-            <n-select v-model:value="model.service" placeholder="Select" :options="getServiceData" />
-          </n-form-item>
-          <n-form-item label="Select A Client" path="client">
-            <n-select v-model:value="model.client" placeholder="Select" :options="getClientData" />
-          </n-form-item>
-          <n-form-item label="Paid?" path="paid">
-            <n-switch v-model:value="model.paid" />
-          </n-form-item>
-          <n-form-item label="Notes" path="notes">
-            <n-input
-              v-model:value="model.notes"
-              placeholder="Event Notes"
-              type="textarea"
-              :autosize="{
-                minRows: 3,
-                maxRows: 5,
-              }"
-            />
-          </n-form-item>
-          <div style="display: flex; justify-content: flex-end">
-            <n-button color="#222a68" @click="updateEvent"> Update </n-button>
-            <n-button type="error" @click="deleteEvent"> Delete </n-button>
-          </div>
-        </n-form>
-      </div>
-    </n-drawer-content>
-  </n-drawer>
-  <delete-event :show="showDeleteEventDrawer" @close="showDeleteEventDrawer = false" :event="event" />
+      <n-drawer-content class="modal_wrapper">
+        <div class="modal-header">
+          <h2 class="modal-title">Update Event</h2>
+        </div>
+        <div class="modal-body">
+          <n-form
+            :model="model"
+            label-placement="left"
+            require-mark-placement="right-hanging"
+            size="medium"
+            label-width="auto"
+            :style="{
+              maxWidth: '640px',
+            }"
+          >
+            <n-form-item label="Title" path="title">
+              <n-input v-model:value="model.title" placeholder="Hair Appointment With Stacia." />
+            </n-form-item>
+            <n-form-item label="Select A Service" path="services">
+              <n-select v-model:value="model.service" placeholder="Select" :options="getServiceData" />
+            </n-form-item>
+            <n-form-item label="Select A Client" path="client">
+              <n-select v-model:value="model.client" placeholder="Select" :options="getClientData" />
+            </n-form-item>
+            <n-form-item label="Paid?" path="paid">
+              <n-switch v-model:value="model.paid" />
+            </n-form-item>
+            <n-form-item label="Notes" path="notes">
+              <n-input
+                v-model:value="model.notes"
+                placeholder="Event Notes"
+                type="textarea"
+                :autosize="{
+                  minRows: 3,
+                  maxRows: 5,
+                }"
+              />
+            </n-form-item>
+            <div style="display: flex; justify-content: flex-end">
+              <n-button color="#222a68" @click="updateEvent"> Update </n-button>
+              <n-button type="error" @click="deleteEvent"> Delete </n-button>
+            </div>
+          </n-form>
+        </div>
+      </n-drawer-content>
+    </n-drawer>
+    <delete-event :show="showDeleteEventDrawer" @close="showDeleteEventDrawer = false" :event="event" />
+  </div>
 </template>
 
 <script lang="ts">

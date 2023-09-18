@@ -62,6 +62,10 @@ export const useStore = defineStore("store", {
       eventData.user_id = this.authUserId;
       const { data, error } = await supabase.from("events").insert([eventData]).select();
     },
+    async addClient(clientData) {
+      clientData.business_id = this.authUserId;
+      const { data, error } = await supabase.from("clients").insert([clientData]).select();
+    },
 
     /* Update Data */
     async updateActiveState(service) {
@@ -80,6 +84,9 @@ export const useStore = defineStore("store", {
     },
     async deleteEvent(eventId) {
       const { error } = await supabase.from("events").delete().eq("id", eventId);
+    },
+    async deleteClient(clientId) {
+      const { error } = await supabase.from("clients").delete().eq("id", clientId);
     },
   },
 });

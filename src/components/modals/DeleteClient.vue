@@ -5,11 +5,11 @@
     </div>
     <n-drawer-content class="modal_wrapper">
       <div class="modal-header">
-        <h2 class="modal-title">Delete Event</h2>
+        <h2 class="modal-title">Delete Client</h2>
       </div>
       <div class="modal-body">
-        <p>Are you sure you want to delete this event?</p>
-        <n-button type="error" @click="deleteEvent()"> Delete </n-button>
+        <p>Are you sure you want to delete this client?</p>
+        <n-button type="error" @click="deleteClient"> Delete </n-button>
       </div>
     </n-drawer-content>
   </n-drawer>
@@ -21,7 +21,7 @@ import { NButton, NDrawer, NDrawerContent } from "naive-ui";
 
 export default {
   components: { NButton, NDrawer, NDrawerContent },
-  props: ["show", "event"],
+  props: ["show", "client"],
   data() {
     return {};
   },
@@ -31,8 +31,8 @@ export default {
     },
   },
   methods: {
-    deleteEvent() {
-      this.store.deleteEvent(this.event.id);
+    deleteClient() {
+      this.store.deleteClient(this.client.id);
       this.closeDrawer();
     },
     closeDrawer() {
