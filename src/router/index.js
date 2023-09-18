@@ -39,7 +39,7 @@ const router = createRouter({
     {
       path: "/dashboard",
       name: "dashboard",
-      component: accountType.value === 2 ? DashboardView : DashboardView_Customer,
+      component: accountType.value === 1 ? DashboardView_Customer : DashboardView,
     },
     {
       path: "/discover",

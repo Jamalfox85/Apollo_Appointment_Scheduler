@@ -8,7 +8,7 @@ import Sidebar from "./components/layout/Sidebar.vue";
 
 import { useStore } from "./stores/store";
 const store = useStore();
-const userIsAuthenticated = ref(store.getSession ? true : false);
+const userIsAuthenticated = ref(false);
 
 onMounted(async () => {
   await store.setSession();
@@ -16,6 +16,11 @@ onMounted(async () => {
   await store.setServiceData();
   await store.setEventData();
   await store.setClientData();
+  let authenticated = store.getSession;
+  if (authenticated) {
+    userIsAuthenticated.value = true;
+  }
+  console.log("authenticated: a", authenticated);
 });
 </script>
 
