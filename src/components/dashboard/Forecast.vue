@@ -5,7 +5,7 @@
       <n-tab-pane class="tab" name="day" tab="Day">
         <h3 class="tab-header">Day</h3>
         <div class="stats">
-          <n-statistic label="Bookings"> 2 </n-statistic>
+          <n-statistic label="Bookings"> {{ generateTotals }} </n-statistic>
           <n-statistic label="Hours"> 20 </n-statistic>
           <n-statistic label="Revenue"> $200 </n-statistic>
         </div>
@@ -38,13 +38,25 @@
   </div>
 </template>
 <script>
+import { useStore } from "../../stores/store";
 import { NTabs, NTabPane, NTree, NStatistic } from "naive-ui";
 export default {
   components: { NTabs, NTabPane, NTree, NStatistic },
   data() {
     return {};
   },
+  computed: {
+    generateTotals() {
+      let events = this.store.getEventData;
+      console.log("FORECAST: ", events);
+      return events;
+    },
+  },
   methods: {},
+  setup() {
+    const store = useStore();
+    return { store };
+  },
 };
 </script>
 <style lang="scss">

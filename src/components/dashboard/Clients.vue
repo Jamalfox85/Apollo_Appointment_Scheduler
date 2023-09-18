@@ -73,7 +73,7 @@ export default {
         },
         {
           title: "Book",
-          key: "actions",
+          key: "book",
           render(row) {
             return h(
               NButton,
@@ -89,7 +89,7 @@ export default {
         },
         {
           title: "Delete",
-          key: "actions",
+          key: "delete",
           render(row) {
             return h(
               NButton,
@@ -114,7 +114,7 @@ export default {
 </script>
 <style lang="scss">
 .clients_dashboard_wrapper {
-  width: 50%;
+  flex-grow: 1;
   position: relative;
   padding: 1em;
   display: flex;

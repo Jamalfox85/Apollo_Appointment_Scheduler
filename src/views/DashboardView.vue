@@ -3,7 +3,7 @@
     <div class="dashboard-left">
       <Topbar class="topbar" />
       <Services class="services" />
-      <Forecast class="forecast" />
+      <!-- <Forecast class="forecast" /> -->
       <Clients class="clients" />
     </div>
     <div class="dashboard-right">
@@ -24,9 +24,7 @@ import Schedule from "../components/dashboard/Schedule.vue";
 export default {
   components: { Topbar, Services, Forecast, Clients, Schedule },
   data() {
-    return {
-      userData: null,
-    };
+    return {};
   },
   methods: {
     async logOut() {
@@ -36,17 +34,12 @@ export default {
       }
     },
   },
-  async created() {
-    const { data, error } = await supabase.auth.getSession();
-    this.userData = data.session.user;
-    // console.log("SESSION DATA: ", data);
-  },
 };
 </script>
 
 <style lang="scss">
 .dashboard_wrapper {
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
   display: flex;
   overflow-y: scroll;
@@ -60,6 +53,7 @@ export default {
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
+    height: fit-content;
     & > * {
       h1 {
         font-size: 1.25em;
@@ -90,6 +84,16 @@ export default {
         font-size: 1.25em;
       }
       margin: 4px;
+    }
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .dashboard_wrapper {
+    flex-direction: column;
+    .dashboard-left {
+      width: 100%;
+      margin-bottom: 0.5em;
     }
   }
 }
