@@ -2,29 +2,12 @@
   <div class="sidebar_wrapper">
     <div class="logo">
       <p>Apollo</p>
-      <n-tag :bordered="false" :color="{ color: this.$colors.primary }"> Business </n-tag>
+      <n-tag :bordered="false" type="success"> Customer </n-tag>
     </div>
-    <n-button class="quick-action-booking-button" :color="this.$colors.primary" ghost @click="showAddEventDrawer = true">Add Booking</n-button>
     <nav class="nav-links">
-      <RouterLink to="/dashboard" class="nav-link">
-        <img src="../../assets/icons/dashboard-icon.svg" class="sidebar-icon" />
-        Dashboard
-      </RouterLink>
       <RouterLink to="/discover" class="nav-link">
         <Search style="width: 1em; margin-right: 0.5em" />
         Discover
-      </RouterLink>
-      <RouterLink to="/calendar" class="nav-link">
-        <img src="../../assets/icons/calendar-icon.svg" class="sidebar-icon" />
-        Calendar
-      </RouterLink>
-      <RouterLink to="/clients" class="nav-link">
-        <img src="../../assets/icons/clients-icon.svg" class="sidebar-icon" />
-        Clients
-      </RouterLink>
-      <RouterLink to="/settings" class="nav-link">
-        <img src="../../assets/icons/settings-icon.svg" class="sidebar-icon" />
-        Settings
       </RouterLink>
     </nav>
     <div class="footer">
@@ -33,24 +16,19 @@
         Log Out
       </button>
     </div>
-    <add-event :show="showAddEventDrawer" :placement="'right'" @close="showAddEventDrawer = false" />
   </div>
 </template>
 <script>
 import { supabase } from "../../lib/supabaseClient";
 import { Search } from "@vicons/ionicons5";
-import { NButton, NTag } from "naive-ui";
-import AddEvent from "../modals/AddEvent.vue";
-
+import { NTag } from "naive-ui";
 export default {
-  components: { NButton, NTag, Search, AddEvent },
+  components: { NTag, Search },
   data() {
     return {
       userData: {},
-      showAddEventDrawer: false,
     };
   },
-
   methods: {
     async logOut() {
       const { error } = await supabase.auth.signOut();
@@ -67,11 +45,11 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .sidebar_wrapper {
   height: 100%;
   width: 275px;
-  background-color: var(--secondary);
+  background-color: #222a68;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -79,20 +57,15 @@ export default {
   .logo {
     width: 100%;
     height: 90px;
-    margin-bottom: 1em;
+    margin-bottom: 2em;
+    margin-left: 2em;
     display: flex;
-    justify-content: center;
     align-items: center;
     p {
       font-size: 24px;
-      color: var(--white);
+      color: #f8f4f9;
       margin-right: 1em;
     }
-  }
-  .quick-action-booking-button {
-    margin: 1em 0;
-    padding: 1.5em;
-    width: 100%;
   }
   .nav-links,
   .footer {
@@ -107,15 +80,14 @@ export default {
       text-decoration: none;
       padding: 0.5em;
       border-radius: 4px;
-      color: var(--white);
+      color: #f8f4f9;
       background-color: none;
       .sidebar-icon {
         width: 1em;
         margin-right: 0.5em;
       }
       &.router-link-active {
-        background-color: var(--primary);
-        color: var(--black);
+        background-color: #945fbf;
         transition: 0.15s ease-in;
       }
     }

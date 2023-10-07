@@ -11,21 +11,12 @@ import SettingsView from "../views/SettingsView.vue";
 import { supabase } from "../lib/supabaseClient";
 
 import BusinessLayout from "../layouts/Business.vue";
-
-const authUserId = ref();
-const accountType = ref(2);
-
-const { data: authData, error: authError } = await supabase.auth.getSession();
-if (authData.session) {
-  authUserId.value = authData.session.user.id;
-  let { data, error } = await supabase.from("users").select("*").eq("user_id", authUserId.value);
-  let userData = data[0];
-  accountType.value = userData.account_type;
-}
+import CustomerLayout from "../layouts/Customer.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    // All Users
     {
       path: "/signup",
       name: "signup",
@@ -36,39 +27,52 @@ const router = createRouter({
       name: "login",
       component: LoginView,
     },
+    // Business Routes
     {
-      path: "/dashboard",
-      name: "dashboard",
-      component: accountType.value === 1 ? DashboardView_Customer : DashboardView,
+      path: "/",
+      name: "layout",
+      component: BusinessLayout,
+      children: [
+        {
+          path: "/dashboard",
+          name: "dashboard",
+          component: DashboardView,
+        },
+        {
+          path: "/discover",
+          name: "discover",
+          component: DiscoverView_Customer,
+        },
+        {
+          path: "/clients",
+          name: "clients",
+          component: ClientsView,
+        },
+        {
+          path: "/calendar",
+          name: "calendar",
+          component: CalendarView,
+        },
+        {
+          path: "/settings",
+          name: "settings",
+          component: SettingsView,
+        },
+      ],
     },
-    {
-      path: "/discover",
-      name: "discover",
-      component: DiscoverView_Customer,
-    },
-    {
-      path: "/clients",
-      name: "clients",
-      component: ClientsView,
-    },
-    {
-      path: "/calendar",
-      name: "calendar",
-      component: CalendarView,
-    },
-    {
-      path: "/settings",
-      name: "settings",
-      component: SettingsView,
-    },
-    {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import("../views/AboutView.vue"),
-    },
+    // Customer Routes
+    // {
+    //   path: "/cx",
+    //   name: "layout",
+    //   component: CustomerLayout,
+    //   children: [
+    //     {
+    //       path: "/discover",
+    //       name: "discover",
+    //       component: DiscoverView_Customer,
+    //     },
+    //   ],
+    // },
   ],
 });
 

@@ -57,36 +57,45 @@ export const useStore = defineStore("store", {
       serviceData.user_id = this.authUserId;
       serviceData.business_name = this.userData.business_name;
       const { data, error } = await supabase.from("services").insert([serviceData]).select();
+      this.setServiceData;
     },
     async addEvent(eventData) {
       eventData.user_id = this.authUserId;
       const { data, error } = await supabase.from("events").insert([eventData]).select();
+      this.setEventData;
     },
     async addClient(clientData) {
       clientData.business_id = this.authUserId;
       const { data, error } = await supabase.from("clients").insert([clientData]).select();
+      this.setClientData;
     },
 
     /* Update Data */
     async updateActiveState(service) {
       const { data, error } = await supabase.from("services").update({ active: service.active }).eq("id", service.id).select();
+      this.setServiceData;
     },
     async updateService(service, serviceId) {
       const { data, error } = await supabase.from("services").update(service).eq("id", serviceId).select();
+      this.setServiceData;
     },
     async updateEvent(event, eventId) {
       const { data, error } = await supabase.from("events").update(event).eq("id", eventId).select();
+      this.setEventData;
     },
 
     /* Delete Data */
     async deleteService(serviceId) {
       const { error } = await supabase.from("services").delete().eq("id", serviceId);
+      this.setServiceData;
     },
     async deleteEvent(eventId) {
       const { error } = await supabase.from("events").delete().eq("id", eventId);
+      this.setEventData;
     },
     async deleteClient(clientId) {
       const { error } = await supabase.from("clients").delete().eq("id", clientId);
+      this.setClientData;
     },
   },
 });

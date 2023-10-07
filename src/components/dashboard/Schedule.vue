@@ -14,7 +14,7 @@
         </div>
       </template>
     </VueCal>
-    <add-event :show="showAddEventDrawer" @close="showAddEventDrawer = false" />
+    <add-event :show="showAddEventDrawer" :placement="'left'" @close="showAddEventDrawer = false" />
     <update-event :show="showUpdateEventDrawer" @close="showUpdateEventDrawer = false" :event="activeEvent" />
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <n-drawer v-model:show="modalState" :width="750" placement="left" :mask-closable="false">
+  <n-drawer v-model:show="modalState" :width="750" :placement="placement" :mask-closable="false">
     <div style="display: flex; justify-content: flex-end">
       <n-button class="close-bttn" type="error" @click="closeDrawer()"> x </n-button>
     </div>
@@ -62,7 +62,7 @@ import moment from "moment";
 
 export default {
   components: { VueFinalModal, NInput, NForm, NFormItem, NDatePicker, NSelect, NSwitch, NButton, NDrawer, NDrawerContent },
-  props: ["show", "activeClientId"],
+  props: ["show", "activeClientId", "placement"],
   data() {
     return {
       model: {
