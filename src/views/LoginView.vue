@@ -1,5 +1,5 @@
 <template lang="">
-  <div class="login_wrapper">
+  <div class="login_wrapper" :style="themeColors">
     <div class="login-sidepanel">
       <p class="logo">Apollo</p>
       <div class="main-text">
@@ -19,7 +19,7 @@
               <n-input v-model:value="model.password" placeholder="Password" type="password" />
             </n-form-item>
           </n-form>
-          <n-button color="#654597" @click="logIn">Log In</n-button>
+          <n-button :color="this.$colors.secondary" @click="logIn">Log In</n-button>
         </n-tab-pane>
         <n-tab-pane name="signup" tab="Sign Up">
           <n-form :model="model" size="medium" label-placement="top">
@@ -45,7 +45,7 @@
               <n-input v-model:value="model.password" placeholder="Password" type="password" />
             </n-form-item>
           </n-form>
-          <n-button color="#654597" @click="signUp">Sign Up</n-button>
+          <n-button :color="this.$colors.secondary" @click="signUp">Sign Up</n-button>
         </n-tab-pane>
       </n-tabs>
     </div>
@@ -69,6 +69,18 @@ export default {
         },
       },
     };
+  },
+  computed: {
+    themeColors() {
+      return {
+        "--white": this.$colors.white,
+        "--black": this.$colors.black,
+        "--primary": this.$colors.primary,
+        "--secondary": this.$colors.secondary,
+        "--tertiary": this.$colors.tertiary,
+        "--error": this.$colors.error,
+      };
+    },
   },
   methods: {
     async logIn() {
@@ -104,7 +116,7 @@ export default {
   width: 100%;
   display: flex;
   .login-sidepanel {
-    background-color: #ab81cd;
+    background-color: var(--secondary);
     margin: 1em;
     padding: 2em;
     border-radius: 1em;
@@ -112,7 +124,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: #fff;
+    color: var(--white);
     max-width: 35%;
     flex-grow: 1;
     .logo {
@@ -137,7 +149,7 @@ export default {
       }
     }
     .reviews {
-      background-color: #654597;
+      background-color: var(--primary);
       border-radius: 0.5em;
       height: 200px;
       width: 85%;
@@ -158,10 +170,10 @@ export default {
       margin-top: 1em;
       .sign-up-link {
         text-decoration: underline;
-        color: #ab81cd;
+        color: var(--secondary);
         cursor: pointer;
         &:hover {
-          color: #9961c7;
+          color: var(--secondary);
         }
       }
     }
