@@ -32,6 +32,18 @@ export default {
     margin: 0 0.5em;
     position: relative;
     border-radius: 12px;
+    &:hover {
+      // transition: 0.1s ease;
+      background-color: var(--primary);
+      color: var(--white);
+      box-shadow: 1.3px 1.5px 1.7px hsl(286deg 21% 68% /1.28), 1.8px 1.6px 2px 1.8px hsl(286deg 21% 68% /1.28), 2.1px 4.1px 5.2px -1.7px hsl(286deg 21% 68% /1.28), 5px 10px 12.6px -2.5px hsl(286deg 21% 68% /1.28);
+      cursor: pointer;
+      bottom: 4px;
+      .stat-card-icon,
+      .n-card-header__main {
+        color: var(--white);
+      }
+    }
     .stat-card-icon {
       position: absolute;
       top: 1em;

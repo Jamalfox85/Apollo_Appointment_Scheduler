@@ -6,7 +6,14 @@
       <n-button class="new-booking-bttn" :color="this.$colors.secondary" ghost @click="showAddEventDrawer = true"> New Booking </n-button>
     </div>
     <div class="upcoming-appts-group">
-      <div v-for="event in getEventData" class="upcoming-appt">
+      <div
+        v-for="event in getEventData"
+        class="upcoming-appt"
+        @click="
+          activeEvent = event;
+          showUpdateEventDrawer = true;
+        "
+      >
         <div class="event-date">
           <font-awesome-icon class="stat-card-icon" :icon="['far', 'calendar-days']" />
         </div>
@@ -119,7 +126,17 @@ export default {
       border-radius: 12px;
       margin-bottom: 0.5em;
       box-shadow: 0.3px 0.5px 0.7px hsl(286deg 21% 68% / 0.28), 0.8px 1.6px 2px -0.8px hsl(286deg 21% 68% / 0.28), 2.1px 4.1px 5.2px -1.7px hsl(286deg 21% 68% / 0.28), 5px 10px 12.6px -2.5px hsl(286deg 21% 68% / 0.28);
-
+      &:hover {
+        // transition: 0.1s ease;
+        background-color: var(--primary);
+        color: var(--white);
+        box-shadow: 1.3px 1.5px 1.7px hsl(286deg 21% 68% /1.28), 1.8px 1.6px 2px 1.8px hsl(286deg 21% 68% /1.28), 2.1px 4.1px 5.2px -1.7px hsl(286deg 21% 68% /1.28), 5px 10px 12.6px -2.5px hsl(286deg 21% 68% /1.28);
+        cursor: pointer;
+        bottom: 4px;
+        .stat-card-icon {
+          color: var(--white);
+        }
+      }
       .event-date {
         font-size: 2em;
         margin-right: 0.5em;
@@ -142,7 +159,7 @@ export default {
         & > * {
           cursor: pointer;
           &:hover {
-            color: var(--primary);
+            color: var(--secondary);
             transition: 0.1s ease-in;
           }
         }

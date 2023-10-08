@@ -6,7 +6,7 @@
       <n-button class="new-service-bttn" :color="this.$colors.secondary" ghost @click="showAddDrawer = true"> New Service </n-button>
     </div>
     <div class="block-body">
-      <n-card class="service-card" v-for="service in getServiceData" :title="service.title">
+      <n-card class="service-card" v-for="service in getServiceData" :title="service.title" @click="onServiceClick(service)">
         <n-switch class="toggle-service" v-model:value="service.active" @update:value="onActiveStateChange(service)" :checked="false" />
         <font-awesome-icon class="update-service" :icon="['fas', 'up-right-from-square']" @click="onServiceClick(service)" />
         <div class="service-info">
@@ -91,6 +91,18 @@ export default {
       cursor: pointer;
       width: 40%;
       position: relative;
+      &:hover {
+        // transition: 0.1s ease;
+        background-color: var(--primary);
+        color: var(--white);
+        box-shadow: 1.3px 1.5px 1.7px hsl(286deg 21% 68% /1.28), 1.8px 1.6px 2px 1.8px hsl(286deg 21% 68% /1.28), 2.1px 4.1px 5.2px -1.7px hsl(286deg 21% 68% /1.28), 5px 10px 12.6px -2.5px hsl(286deg 21% 68% /1.28);
+        cursor: pointer;
+        bottom: 4px;
+        .stat-card-icon,
+        .n-card-header__main {
+          color: var(--white);
+        }
+      }
       .toggle-service {
         position: absolute;
         top: 1em;
@@ -104,7 +116,7 @@ export default {
         bottom: 1em;
         right: 1em;
         &:hover {
-          color: var(--primary);
+          color: var(--secondary);
           transition: 0.1s ease-in;
         }
       }
