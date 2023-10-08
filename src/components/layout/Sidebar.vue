@@ -2,34 +2,34 @@
   <div class="sidebar_wrapper">
     <div class="logo">
       <p>Apollo</p>
-      <n-tag :bordered="false" :color="{ color: this.$colors.primary }"> Business </n-tag>
+      <n-tag :bordered="false" :color="{ color: this.$colors.tertiary }"> Business </n-tag>
     </div>
     <n-button class="quick-action-booking-button" :color="this.$colors.primary" ghost @click="showAddEventDrawer = true">Add Booking</n-button>
     <nav class="nav-links">
       <RouterLink to="/dashboard" class="nav-link">
-        <img src="../../assets/icons/dashboard-icon.svg" class="sidebar-icon" />
+        <font-awesome-icon class="sidebar-icon" :icon="['fas', 'table-columns']" />
         Dashboard
       </RouterLink>
       <RouterLink to="/discover" class="nav-link">
-        <Search style="width: 1em; margin-right: 0.5em" />
+        <font-awesome-icon class="sidebar-icon" :icon="['fas', 'magnifying-glass']" />
         Discover
       </RouterLink>
       <RouterLink to="/calendar" class="nav-link">
-        <img src="../../assets/icons/calendar-icon.svg" class="sidebar-icon" />
+        <font-awesome-icon class="sidebar-icon" :icon="['fas', 'calendar']" />
         Calendar
       </RouterLink>
       <RouterLink to="/clients" class="nav-link">
-        <img src="../../assets/icons/clients-icon.svg" class="sidebar-icon" />
+        <font-awesome-icon class="sidebar-icon" :icon="['fas', 'users']" />
         Clients
       </RouterLink>
       <RouterLink to="/settings" class="nav-link">
-        <img src="../../assets/icons/settings-icon.svg" class="sidebar-icon" />
+        <font-awesome-icon class="sidebar-icon" :icon="['fas', 'gear']" />
         Settings
       </RouterLink>
     </nav>
     <div class="footer">
       <button @click="logOut" class="nav-link" role="button" aria-label="Log Out">
-        <img src="../../assets/icons/logout-icon.svg" class="sidebar-icon" />
+        <font-awesome-icon class="sidebar-icon" :icon="['fas', 'right-from-bracket']" />
         Log Out
       </button>
     </div>
@@ -70,7 +70,7 @@ export default {
 <style lang="scss">
 .sidebar_wrapper {
   height: 100%;
-  width: 275px;
+  min-width: 250px;
   background-color: var(--secondary);
   display: flex;
   flex-direction: column;
@@ -79,7 +79,6 @@ export default {
   .logo {
     width: 100%;
     height: 90px;
-    margin-bottom: 1em;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -91,8 +90,12 @@ export default {
   }
   .quick-action-booking-button {
     margin: 1em 0;
-    padding: 1.5em;
-    width: 100%;
+    padding: 1.25em;
+    width: 75%;
+    &:hover {
+      background-color: var(--primary);
+      color: var(--secondary);
+    }
   }
   .nav-links,
   .footer {
@@ -113,10 +116,11 @@ export default {
         width: 1em;
         margin-right: 0.5em;
       }
-      &.router-link-active {
+      &.router-link-active,
+      &:hover {
         background-color: var(--primary);
         color: var(--black);
-        transition: 0.15s ease-in;
+        transition: 0.25s ease-in;
       }
     }
   }

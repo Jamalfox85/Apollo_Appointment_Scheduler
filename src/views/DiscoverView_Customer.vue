@@ -1,9 +1,8 @@
 <template lang="">
   <div class="discover_wrapper">
-    <h1>Discover</h1>
     <div class="discover-main">
       <n-card class="service-card" v-for="service in services" :title="service.title">
-        <n-button color="#222a68" class="book-appt-bttn" @click="bookEvent(service)"> Book </n-button>
+        <n-button :color="this.$colors.secondary" class="book-appt-bttn" @click="bookEvent(service)"> Book </n-button>
         <div class="service-info">
           <b>Price: </b>
           <p>${{ service.price }}</p>

@@ -1,13 +1,17 @@
 <template lang="">
   <div class="layout_wrapper" :style="themeColors">
-    <Sidebar />
-    <router-view></router-view>
+    <Sidebar class="sidebar" />
+    <div class="layout_main">
+      <Topbar />
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 <script>
 import Sidebar from "../components/layout/Sidebar.vue";
+import Topbar from "../components/layout/Topbar.vue";
 export default {
-  components: { Sidebar },
+  components: { Sidebar, Topbar },
   computed: {
     themeColors() {
       return {
@@ -27,5 +31,9 @@ export default {
   height: 100vh;
   width: 100%;
   display: flex;
+  .layout_main {
+    overflow-y: auto;
+    width: 100%;
+  }
 }
 </style>

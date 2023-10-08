@@ -63,6 +63,8 @@ export const useStore = defineStore("store", {
       eventData.user_id = this.authUserId;
       const { data, error } = await supabase.from("events").insert([eventData]).select();
       this.setEventData;
+      // this.eventData.push(data);
+      // console.log(eventData);
     },
     async addClient(clientData) {
       clientData.business_id = this.authUserId;

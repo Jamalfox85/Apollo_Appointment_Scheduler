@@ -1,19 +1,32 @@
 <template lang="">
-  <div class="schedule_wrapper">
-    <div class="block-header">
-      <h1>Schedule</h1>
-      <div style="display: flex; justify-content: flex-end">
-        <n-button class="add-event-bttn" size="small" color="#222a68" @click="showAddEventDrawer = true"> + </n-button>
+  <div class="upcoming_appts_wrapper">
+    <div class="upcoming-appts-header">
+      <h2>Upcoming Appointments</h2>
+      <n-tag class="upcoming-events-tag" :bordered="false" round :color="{ color: this.$colors.primary, textColor: this.$colors.white }">{{ getEventData.length }}</n-tag>
+      <n-button class="new-booking-bttn" :color="this.$colors.secondary" ghost @click="showAddEventDrawer = true"> New Booking </n-button>
+    </div>
+    <div class="upcoming-appts-group">
+      <div v-for="event in getEventData" class="upcoming-appt">
+        <div class="event-date">
+          <font-awesome-icon class="stat-card-icon" :icon="['far', 'calendar-days']" />
+        </div>
+        <div class="event-details">
+          <b class="event-title">{{ event.title }}</b>
+          <p class="event-start">Start: {{ event.start }}</p>
+          <n-tag class="event-paid-status" :bordered="false" :color="{ color: event.paid ? this.$colors.primary : this.$colors.tertiary }">{{ event.paid ? "Paid" : "Awaiting Payment" }}</n-tag>
+        </div>
+        <div class="event-actions">
+          <font-awesome-icon
+            class="expand-event-icon"
+            :icon="['fas', 'up-right-from-square']"
+            @click="
+              activeEvent = event;
+              showUpdateEventDrawer = true;
+            "
+          />
+        </div>
       </div>
     </div>
-    <VueCal class="vue-cal" active-view="day" :events="getEventData" :time-from="8 * 60" :time-to="20 * 60" :time-step="15" hide-weekends :twelve-hour="true" :disable-views="['years', 'year', 'month', 'week']" :todayButton="false" :snapToTime="15" :disable-days="unavailableDays" :hide-weekdays="hiddenWeekdays" :on-event-click="onEventClick" @cell-dblclick="showAddEventDrawer = true">
-      <template #time-cell="{ hours, minutes }" #twelve-hour="true">
-        <div :class="{ 'vuecal__time-cell-line': true, hours: !minutes }">
-          <strong v-if="!minutes" style="font-size: 15px">{{ formatTime(hours) }}</strong>
-          <span v-else style="font-size: 11px">{{ minutes }}</span>
-        </div>
-      </template>
-    </VueCal>
     <add-event :show="showAddEventDrawer" :placement="'left'" @close="showAddEventDrawer = false" />
     <update-event :show="showUpdateEventDrawer" @close="showUpdateEventDrawer = false" :event="activeEvent" />
   </div>
@@ -21,19 +34,15 @@
 <script>
 import { useStore } from "../../stores/store";
 import { formattingService } from "../../services/formattingService";
-import VueCal from "vue-cal";
-import "vue-cal/dist/vuecal.css";
-import { NButton } from "naive-ui";
+import { NButton, NTag } from "naive-ui";
 import AddEvent from "../modals/AddEvent.vue";
 import UpdateEvent from "../modals/UpdateEvent.vue";
 
 export default {
-  components: { VueCal, AddEvent, UpdateEvent, NButton },
+  components: { AddEvent, UpdateEvent, NButton, NTag },
   data() {
     return {
       events: [],
-      unavailableDays: [],
-      hiddenWeekdays: [],
       showAddEventDrawer: false,
       showUpdateEventDrawer: false,
       activeEvent: null,
@@ -42,7 +51,22 @@ export default {
   computed: {
     getEventData() {
       let events = this.store.getEventData;
-      return events;
+      let filteredEvents = events
+        // Sort by Date
+        .sort((a, b) => {
+          let aDate = new Date(a.start);
+          let bDate = new Date(b.start);
+          return aDate - bDate;
+        })
+        // Return only upcoming events
+        .filter((item) => {
+          if (new Date(item.start) >= new Date()) {
+            return true;
+          }
+        })
+        // Return 3 closest events
+        .slice(0, 3);
+      return filteredEvents;
     },
   },
   methods: {
@@ -60,46 +84,86 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-.schedule_wrapper {
+<style lang="scss" scoped>
+.upcoming_appts_wrapper {
   width: 100%;
-  height: 90vh;
   position: relative;
   display: flex;
   flex-direction: column;
-  .block-header {
-    margin: 4px;
-  }
-  .add-event-bttn {
+  .upcoming-appts-header {
+    display: flex;
+    align-items: center;
     margin-bottom: 0.5em;
-    position: absolute;
-    right: 1em;
-    top: 0.75em;
+    h2 {
+      font-size: 1em;
+    }
+    .upcoming-events-tag {
+      margin: 0 auto 0 1em;
+    }
+    .new-booking-bttn {
+      box-shadow: 0.3px 0.5px 0.7px hsl(286deg 21% 68% / 0.28), 0.8px 1.6px 2px -0.8px hsl(286deg 21% 68% / 0.28), 2.1px 4.1px 5.2px -1.7px hsl(286deg 21% 68% / 0.28), 5px 10px 12.6px -2.5px hsl(286deg 21% 68% / 0.28);
+      &:hover {
+        background-color: var(--primary);
+        transition: 0.1s ease-in;
+      }
+    }
   }
-}
-.vue-cal {
-  flex-grow: 1;
-  margin-top: 12px;
-}
-.vuecal__time-cell {
-  display: flex;
-  justify-content: center;
-  .vuecal__time-cell-line {
-    color: #222a68;
+  .upcoming-appts-group {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 0.5em;
+
+    .upcoming-appt {
+      display: flex;
+      padding: 0.5em;
+      border-radius: 12px;
+      margin-bottom: 0.5em;
+      box-shadow: 0.3px 0.5px 0.7px hsl(286deg 21% 68% / 0.28), 0.8px 1.6px 2px -0.8px hsl(286deg 21% 68% / 0.28), 2.1px 4.1px 5.2px -1.7px hsl(286deg 21% 68% / 0.28), 5px 10px 12.6px -2.5px hsl(286deg 21% 68% / 0.28);
+
+      .event-date {
+        font-size: 2em;
+        margin-right: 0.5em;
+        color: var(--secondary);
+      }
+      .event-details {
+        .event-title {
+          font-size: 16px;
+        }
+        .event-start {
+          font-size: 12px;
+        }
+        .event-paid-status {
+          border-radius: 8px;
+          font-size: 12px;
+        }
+      }
+      .event-actions {
+        margin-left: auto;
+        & > * {
+          cursor: pointer;
+          &:hover {
+            color: var(--primary);
+            transition: 0.1s ease-in;
+          }
+        }
+      }
+    }
+    &::-webkit-scrollbar {
+      width: 4px;
+      cursor: pointer;
+    }
+    &::-webkit-scrollbar-track {
+      background: rgb(211, 210, 210);
+      border-radius: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: var(--secondary);
+      border-radius: 4px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
+      cursor: pointer;
+    }
   }
-}
-.vuecal__event {
-  border: solid 2px #222a68;
-  background-color: #945fbf20 !important;
-  color: #222a68 !important;
-  .vuecal__event-title {
-    font-weight: bold;
-  }
-  .vuecal__event-time {
-    font-size: 0.8em;
-  }
-}
-.vuecal__no-event {
-  display: none;
 }
 </style>

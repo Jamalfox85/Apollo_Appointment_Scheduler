@@ -19,12 +19,12 @@ const router = createRouter({
     // All Users
     {
       path: "/signup",
-      name: "signup",
+      name: "Sign Up",
       component: SignUpView,
     },
     {
       path: "/login",
-      name: "login",
+      name: "Login",
       component: LoginView,
     },
     // Business Routes
@@ -35,27 +35,27 @@ const router = createRouter({
       children: [
         {
           path: "/dashboard",
-          name: "dashboard",
+          name: "Dashboard",
           component: DashboardView,
         },
         {
           path: "/discover",
-          name: "discover",
+          name: "Discover",
           component: DiscoverView_Customer,
         },
         {
           path: "/clients",
-          name: "clients",
+          name: "Clients",
           component: ClientsView,
         },
         {
           path: "/calendar",
-          name: "calendar",
+          name: "Calendar",
           component: CalendarView,
         },
         {
           path: "/settings",
-          name: "settings",
+          name: "Settings",
           component: SettingsView,
         },
       ],

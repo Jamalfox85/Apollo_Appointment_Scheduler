@@ -1,8 +1,7 @@
 <template lang="">
   <div class="clients_wrapper">
     <div class="clients-header">
-      <h1>Clients</h1>
-      <n-button style="margin-left: 1em" color="#222a68" @click="showAddClientDrawer = true">+</n-button>
+      <n-button style="margin-left: auto" :color="this.$colors.secondary" ghost @click="showAddClientDrawer = true">New Client</n-button>
     </div>
     <div class="clients-main">
       <n-spin size="medium" v-if="getClients.length == 0" />
@@ -127,6 +126,7 @@ export default {
   .clients-header {
     display: flex;
     justify-content: space-between;
+    padding: 0.5em;
   }
   .clients-main {
     flex-grow: 1;

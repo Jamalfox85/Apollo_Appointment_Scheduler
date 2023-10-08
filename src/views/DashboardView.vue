@@ -1,28 +1,29 @@
 <template>
   <main class="dashboard_wrapper">
-    <div class="dashboard-left">
-      <Topbar class="topbar" />
-      <Services class="services" />
-      <!-- <Forecast class="forecast" /> -->
-      <Clients class="clients" />
+    <div class="dashboard-row">
+      <quick-stats />
     </div>
-    <div class="dashboard-right">
-      <Schedule />
+    <div class="dashboard-row">
+      <Services class="services" />
+      <Schedule class="schedule" />
+    </div>
+    <div class="dashboard-row">
+      <Clients class="clients" />
+      <img class="dashboard-graphic" src="../assets/images/well-done.png" />
     </div>
   </main>
 </template>
 
 <script>
 import { supabase } from "../lib/supabaseClient";
-
-import Topbar from "../components/dashboard/Topbar.vue";
+import QuickStats from "../components/dashboard/QuickStats.vue";
 import Services from "../components/dashboard/Services.vue";
 import Forecast from "../components/dashboard/Forecast.vue";
 import Clients from "../components/dashboard/Clients.vue";
 import Schedule from "../components/dashboard/Schedule.vue";
 
 export default {
-  components: { Topbar, Services, Forecast, Clients, Schedule },
+  components: { QuickStats, Services, Forecast, Clients, Schedule },
   data() {
     return {};
   },
@@ -41,49 +42,24 @@ export default {
 .dashboard_wrapper {
   min-height: 100vh;
   width: 100%;
-  display: flex;
-  overflow-y: scroll;
   padding: 0.5em;
   & > * {
-    height: 100%;
-    margin: 0 0.25em;
+    margin: 0.5em;
   }
-  .dashboard-left {
-    width: 70%;
+  .dashboard-row {
     display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
+    margin-bottom: 1em;
     height: fit-content;
+    width: 100%;
     & > * {
-      h1 {
-        font-size: 1.25em;
-      }
-      background-color: #574ae210;
-      border-radius: 8px;
-      margin: 4px;
-    }
-    .topbar {
       width: 100%;
-    }
-    .services {
-      width: 100%;
-    }
-    .forecast {
-      width: 35%;
+      padding: 0.5em;
     }
     .clients {
-      width: 62.5%;
+      flex-grow: 1;
     }
-  }
-  .dashboard-right {
-    flex-grow: 1;
-    background-color: #574ae210;
-    border-radius: 8px;
-    & > * {
-      h1 {
-        font-size: 1.25em;
-      }
-      margin: 4px;
+    .dashboard-graphic {
+      width: 30%;
     }
   }
 }

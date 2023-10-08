@@ -1,7 +1,7 @@
 <template lang="">
   <div class="calendar_wrapper">
-    <n-button class="add-event-calendar-bttn" color="#222a68" @click="showAddEventModal = true"> + </n-button>
-    <VueCal :events="events" :time-from="8 * 60" :time-to="20 * 60" :time-step="15" hide-weekends :time-cell-height="30" events-on-month-view="short" twelve-hour="true" time-format="hh" :on-event-click="onEventClick" :disable-days="unavailableDays" :hide-weekdays="hiddenWeekdays" :disable-views="['years', 'year']">
+    <n-button class="add-event-calendar-bttn" :color="this.$colors.secondary" ghost @click="showAddEventModal = true"> New Booking </n-button>
+    <VueCal :events="events" :time-from="8 * 60" :time-to="20 * 60" :time-step="15" :hide-weekends="false" :time-cell-height="30" events-on-month-view="short" twelve-hour="true" time-format="hh" :on-event-click="onEventClick" :disable-days="unavailableDays" :hide-weekdays="hiddenWeekdays" :disable-views="['years', 'year']">
       <template #time-cell="{ hours, minutes }">
         <div :class="{ 'vuecal__time-cell-line': true, hours: !minutes }">
           <strong v-if="!minutes" style="font-size: 15px">{{ hours }}</strong>
@@ -55,18 +55,18 @@ export default {
 }
 .add-event-calendar-bttn {
   position: absolute;
-  top: 1em;
+  top: 0.5em;
   right: 1em;
 }
 .vuecal__title-bar {
-  background-color: #ab81cd6a;
+  background-color: var(--primary);
   .vuecal__title {
     font-size: 18px;
   }
   .vuecal__today-btn {
     font-size: 12px;
-    background-color: #222a68;
-    color: #fff;
+    background-color: var(--secondary);
+    color: var(--white);
     border-radius: 4px;
   }
 }
@@ -78,26 +78,21 @@ export default {
 }
 
 .vuecal__now-line {
-  color: #654597;
+  color: var(--secondary);
 }
 .event-background-1 {
-  background-color: #ab81cd;
-  color: #fff;
+  background-color: var(--tertiary);
+  color: var(--black);
   border-radius: 4px;
 }
 .event-background-2 {
-  background-color: #654597;
-  color: #fff;
+  background-color: var(--secondary);
+  color: var(--white);
   border-radius: 4px;
 }
 .event-background-3 {
-  background-color: #574ae2;
-  color: #fff;
-  border-radius: 4px;
-}
-.event-background-4 {
-  background-color: #222a68;
-  color: #fff;
+  background-color: var(--primary);
+  color: var(--white);
   border-radius: 4px;
 }
 </style>

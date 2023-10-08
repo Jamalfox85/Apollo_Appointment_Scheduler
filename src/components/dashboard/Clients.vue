@@ -1,9 +1,12 @@
 <template lang="">
   <div class="clients_dashboard_wrapper">
-    <h1>Clients</h1>
-    <n-button class="add-client-button" style="margin-left: 1em" size="small" color="#222a68" @click="showAddClientDrawer = true">+</n-button>
+    <div class="clients-header">
+      <h2>Top Clients</h2>
+      <n-tag class="top-clients-tag" :bordered="false" round :color="{ color: this.$colors.primary, textColor: this.$colors.white }">{{ getClients.length }}</n-tag>
+      <n-button class="new-client-bttn" :color="this.$colors.secondary" ghost @click="showAddClientDrawer = true">New Client</n-button>
+    </div>
     <n-spin size="medium" v-if="getClients.length == 0" />
-    <n-data-table class="client-table" v-else :columns="columns" :data="getClients" :pagination="pagination" :row-key="rowKey" @update:checked-row-keys="handleCheck" />
+    <n-data-table class="client-table" v-else :columns="columns" :data="getClients" :row-key="rowKey" @update:checked-row-keys="handleCheck" />
     <add-event :show="showAddEventDrawer" @close="showAddEventDrawer = false" :activeClientId="activeClient.id" />
     <add-client :show="showAddClientDrawer" @close="showAddClientDrawer = false" />
     <delete-client :show="showDeleteClientDrawer" @close="showDeleteClientDrawer = false" :client="activeClient" />
@@ -15,9 +18,9 @@ import { useStore } from "../../stores/store";
 import AddEvent from "../../components/modals/AddEvent.vue";
 import AddClient from "../../components/modals/AddClient.vue";
 import DeleteClient from "../../components/modals/DeleteClient.vue";
-import { NDataTable, NButton, NSpin, NDrawer, NDrawerContent, NFormItem, NInput, NForm } from "naive-ui";
+import { NDataTable, NButton, NSpin, NDrawer, NDrawerContent, NFormItem, NInput, NTag, NForm } from "naive-ui";
 export default {
-  components: { NDataTable, NButton, NSpin, NDrawer, NDrawerContent, NFormItem, NInput, NForm, AddEvent, AddClient, DeleteClient },
+  components: { NDataTable, NButton, NSpin, NDrawer, NDrawerContent, NFormItem, NInput, NTag, NForm, AddEvent, AddClient, DeleteClient },
   data() {
     return {
       activeClient: {},
@@ -38,7 +41,7 @@ export default {
   computed: {
     getClients() {
       let clients = this.store.getClientData;
-      return clients.map((client) => {
+      let clientData = clients.map((client) => {
         return {
           id: client.id,
           name: client.first_name + " " + client.last_name,
@@ -46,6 +49,7 @@ export default {
           email: client.email,
         };
       });
+      return clientData.slice(0, 3);
     },
   },
   methods: {
@@ -112,18 +116,31 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .clients_dashboard_wrapper {
   flex-grow: 1;
   position: relative;
   padding: 1em;
   display: flex;
   flex-direction: column;
-}
-.add-client-button {
-  position: absolute;
-  top: 0.5em;
-  right: 0.5em;
+  .clients-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5em;
+    h2 {
+      font-size: 1em;
+    }
+    .top-clients-tag {
+      margin: 0 auto 0 1em;
+    }
+    .new-client-bttn {
+      box-shadow: 0.3px 0.5px 0.7px hsl(286deg 21% 68% / 0.28), 0.8px 1.6px 2px -0.8px hsl(286deg 21% 68% / 0.28), 2.1px 4.1px 5.2px -1.7px hsl(286deg 21% 68% / 0.28), 5px 10px 12.6px -2.5px hsl(286deg 21% 68% / 0.28);
+      &:hover {
+        background-color: var(--primary);
+        transition: 0.1s ease-in;
+      }
+    }
+  }
 }
 .n-data-table__pagination {
   position: absolute;

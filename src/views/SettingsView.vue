@@ -1,6 +1,5 @@
 <template lang="">
   <div class="clients_wrapper">
-    <h1>Settings</h1>
     <!-- <n-form :model="model" size="medium" label-placement="top"> -->
     <h2>Account</h2>
     <n-form-item label="Name">
@@ -13,10 +12,10 @@
       <n-input v-model:value="phone" type="text" />
     </n-form-item>
     <n-form-item label="Password">
-      <n-button v-if="!changePassword" color="#654597" @click="changePassword = true">Change Password</n-button>
+      <n-button v-if="!changePassword" :color="this.$colors.secondary" @click="changePassword = true">Change Password</n-button>
       <div v-else>
         <n-input v-model:value="password" type="password" />
-        <n-button color="#654597" @click="changePassword = false">Cancel</n-button>
+        <n-button :color="this.$colors.error" @click="changePassword = false">Cancel</n-button>
       </div>
     </n-form-item>
     <div class="business-section">
@@ -28,11 +27,11 @@
     <div class="availability-section">
       <h2>Availability</h2>
       <div class="day-buttons">
-        <n-button class="day-button" v-for="(day, index) in availability.days" :color="'#654597'" :ghost="!day.open ? true : false" @click="toggleAvailability(index)">{{ index }}</n-button>
+        <n-button class="day-button" v-for="(day, index) in availability.days" :color="this.$colors.secondary" :ghost="!day.open ? true : false" @click="toggleAvailability(index)">{{ index }}</n-button>
       </div>
       <n-input pair separator="-" v-model:value="availability.hours" clearable />
     </div>
-    <n-button class="day-button" :color="'#654597'">Save Changes</n-button>
+    <n-button class="day-button" :color="this.$colors.secondary">Save Changes</n-button>
 
     <!-- </n-form> -->
   </div>
