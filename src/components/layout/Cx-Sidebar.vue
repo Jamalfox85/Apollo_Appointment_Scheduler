@@ -11,10 +11,7 @@
       </RouterLink>
     </nav>
     <div class="footer">
-      <button @click="logOut" class="nav-link" role="button" aria-label="Log Out">
-        <img src="../../assets/icons/logout-icon.svg" class="sidebar-icon" />
-        Log Out
-      </button>
+      <button @click="logOut" class="nav-link" role="button" aria-label="Log Out">Log Out</button>
     </div>
   </div>
 </template>
