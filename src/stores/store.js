@@ -33,7 +33,7 @@ export const useStore = defineStore("store", {
     async setSession() {
       const { data: session, error: authError } = await supabase.auth.getSession();
       this.sessionData = session.session;
-      this.authUserId = session?.session?.user?.id;
+      this.authUserId = session.session.user.id;
     },
     async setUserData() {
       const { data: users, error } = await supabase.from("users").select("*").eq("user_id", this.authUserId);
