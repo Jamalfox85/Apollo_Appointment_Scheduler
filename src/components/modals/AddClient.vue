@@ -1,7 +1,7 @@
 <template lang="">
   <n-drawer v-model:show="drawerState" :width="502" placement="left">
     <div style="display: flex; justify-content: flex-end">
-      <n-button class="close-bttn" type="error" @click="closeDrawer()"> x </n-button>
+      <n-button class="close-bttn" :color="this.$colors.error" @click="closeDrawer()"> Close </n-button>
     </div>
     <n-drawer-content title="New Client">
       <n-form
@@ -27,7 +27,7 @@
           <n-input v-model:value="model.email" placeholder="email@email.com" />
         </n-form-item>
       </n-form>
-      <n-button @click="addNewClient" type="primary"> Submit </n-button>
+      <n-button @click="addNewClient" :color="this.$colors.secondary"> Submit </n-button>
     </n-drawer-content>
   </n-drawer>
 </template>

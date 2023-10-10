@@ -8,9 +8,11 @@ import ClientsView from "../views/ClientsView.vue";
 import CalendarView from "../views/CalendarView.vue";
 import SettingsView from "../views/SettingsView.vue";
 import { supabase } from "../lib/supabaseClient";
+// import { useStore } from "../stores/store";
 
 import BusinessLayout from "../layouts/Business.vue";
 import CustomerLayout from "../layouts/Customer.vue";
+import { tooltipLight } from "naive-ui/es/tooltip/styles";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -75,6 +77,14 @@ router.beforeEach(async (to, from) => {
   if (!data.session && to.name !== "Login") {
     return { name: "Login" };
   }
+  // else if (data.session && to.name == "Dashboard") {
+  //   let store = useStore();
+  //   await store.setSession();
+  //   await store.setUserData();
+  //   await store.setServiceData();
+  //   await store.setEventData();
+  //   await store.setClientData();
+  // }
 });
 
 export default router;

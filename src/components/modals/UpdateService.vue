@@ -1,7 +1,7 @@
 <template lang="">
   <n-drawer class="service_drawer_wrapper" v-model:show="drawerState" :width="502" placement="right" :mask-closable="false">
     <div style="display: flex; justify-content: flex-end">
-      <n-button class="close-bttn" type="error" @click="closeDrawer()"> x </n-button>
+      <n-button class="close-bttn" :color="this.$colors.error" @click="closeDrawer()"> Close </n-button>
     </div>
     <n-drawer-content title="Update Service">
       <n-form
@@ -40,8 +40,8 @@
         </n-form-item>
       </n-form>
       <div style="display: flex; justify-content: flex-end">
-        <n-button color="#222a68" @click="updateService"> Update </n-button>
-        <n-button type="error" @click="deleteService"> Delete </n-button>
+        <n-button :color="this.$colors.secondary" @click="updateService"> Update </n-button>
+        <n-button :color="this.$colors.error" @click="deleteService"> Delete </n-button>
       </div>
     </n-drawer-content>
   </n-drawer>

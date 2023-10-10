@@ -4,7 +4,7 @@
       <div class="modal-header">
         <h2 class="modal-title">Book: {{ selectedService.title }}</h2>
         <div style="display: flex; justify-content: flex-end">
-          <n-button type="error" @click="closeModal"> X </n-button>
+          <n-button :color="this.$colors.error" @click="closeModal"> Close </n-button>
         </div>
       </div>
       <div class="modal-body">
@@ -33,7 +33,7 @@
             />
           </n-form-item>
           <div style="display: flex; justify-content: flex-end">
-            <n-button type="primary" @click="submitNewEvent"> Submit </n-button>
+            <n-button :color="this.$colors.secondary" @click="submitNewEvent"> Submit </n-button>
           </div>
         </n-form>
       </div>

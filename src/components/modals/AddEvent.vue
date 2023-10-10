@@ -1,7 +1,7 @@
 <template>
   <n-drawer v-model:show="modalState" :width="750" :placement="placement" :mask-closable="false">
     <div style="display: flex; justify-content: flex-end">
-      <n-button class="close-bttn" type="error" @click="closeDrawer()"> x </n-button>
+      <n-button class="close-bttn" :color="this.$colors.error" @click="closeDrawer()"> Close </n-button>
     </div>
     <n-drawer-content class="modal_wrapper">
       <div class="modal-header">
@@ -45,7 +45,7 @@
             />
           </n-form-item>
           <div style="display: flex; justify-content: flex-end">
-            <n-button color="#222a68" @click="submitNewEvent"> Submit </n-button>
+            <n-button :color="this.$colors.secondary" @click="submitNewEvent"> Submit </n-button>
           </div>
         </n-form>
       </div>
