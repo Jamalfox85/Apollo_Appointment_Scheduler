@@ -31,9 +31,10 @@ export default {
     },
   },
   methods: {
-    deleteClient() {
-      this.store.deleteClient(this.client.id);
+    async deleteClient() {
+      let error = await this.store.deleteClient(this.client.id);
       this.closeDrawer();
+      error && window.$message.error("Error! You cannot delete clients associated with upcoming appointments. Cancel future appointments for this client and try again.", { duration: 6250 });
     },
     closeDrawer() {
       this.$emit("close");

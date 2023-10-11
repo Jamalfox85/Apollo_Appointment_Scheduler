@@ -4,9 +4,13 @@ import { ref, onMounted } from "vue";
 import { supabase } from "./lib/supabaseClient";
 import { ModalsContainer } from "vue-final-modal";
 import { useStore } from "./stores/store";
+import { createDiscreteApi } from "naive-ui";
 
 const store = useStore();
 const userIsAuthenticated = ref(false);
+
+const { message } = createDiscreteApi(["message"]);
+window.$message = message;
 
 onMounted(async () => {
   await store.setSession();

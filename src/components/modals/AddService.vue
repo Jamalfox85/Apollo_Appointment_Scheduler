@@ -90,6 +90,13 @@ export default {
     async submitNewService() {
       let serviceData = this.model;
       this.store.addService(serviceData);
+      this.model = {
+        active: false,
+        title: null,
+        price: 0,
+        time: 30,
+        description: null,
+      };
       this.closeDrawer();
     },
     parseCurrency: (input) => {

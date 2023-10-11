@@ -95,6 +95,9 @@ export const useStore = defineStore("store", {
           service.id !== serviceId;
         })
       );
+      if (error) {
+        return error;
+      }
     },
     async deleteEvent(eventId) {
       const { error } = await supabase.from("events").delete().eq("id", eventId);
@@ -111,6 +114,9 @@ export const useStore = defineStore("store", {
           client.id !== clientId;
         })
       );
+      if (error) {
+        return error;
+      }
     },
   },
 });

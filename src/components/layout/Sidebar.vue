@@ -4,33 +4,36 @@
       <p>Apollo</p>
       <n-tag :bordered="false" :color="{ color: this.$colors.tertiary }"> Business </n-tag>
     </div>
-    <n-button class="quick-action-booking-button" :color="this.$colors.primary" ghost @click="showAddEventDrawer = true">Add Booking</n-button>
+    <n-button class="quick-action-booking-button nav-link" :color="this.$colors.primary" ghost @click="showAddEventDrawer = true">
+      <font-awesome-icon class="sidebar-icon" :icon="['fas', 'plus']" />
+      <p>Add Booking</p>
+    </n-button>
     <nav class="nav-links">
       <RouterLink to="/dashboard" class="nav-link">
         <font-awesome-icon class="sidebar-icon" :icon="['fas', 'table-columns']" />
-        Dashboard
+        <p>Dashboard</p>
       </RouterLink>
       <RouterLink to="/discover" class="nav-link">
         <font-awesome-icon class="sidebar-icon" :icon="['fas', 'magnifying-glass']" />
-        Discover
+        <p>Discover</p>
       </RouterLink>
       <RouterLink to="/calendar" class="nav-link">
         <font-awesome-icon class="sidebar-icon" :icon="['fas', 'calendar']" />
-        Calendar
+        <p>Calendar</p>
       </RouterLink>
       <RouterLink to="/clients" class="nav-link">
         <font-awesome-icon class="sidebar-icon" :icon="['fas', 'users']" />
-        Clients
+        <p>Clients</p>
       </RouterLink>
       <RouterLink to="/settings" class="nav-link">
         <font-awesome-icon class="sidebar-icon" :icon="['fas', 'gear']" />
-        Settings
+        <p>Settings</p>
       </RouterLink>
     </nav>
     <div class="footer">
       <button @click="logOut" class="nav-link" role="button" aria-label="Log Out">
         <font-awesome-icon class="sidebar-icon" :icon="['fas', 'right-from-bracket']" />
-        Log Out
+        <p>Log Out</p>
       </button>
     </div>
     <add-event :show="showAddEventDrawer" :placement="'right'" @close="showAddEventDrawer = false" />
@@ -132,6 +135,28 @@ export default {
       background-color: transparent;
       outline: none;
       border: none;
+    }
+  }
+}
+@media screen and (max-width: 850px) {
+  .sidebar_wrapper {
+    min-width: 75px !important;
+    width: 75px !important;
+    .logo {
+      visibility: hidden;
+    }
+    .quick-action-booking-button {
+      padding: 0 !important;
+    }
+    .nav-link {
+      justify-content: center;
+      p {
+        display: none;
+      }
+      .sidebar-icon {
+        margin-right: 0 !important;
+        font-size: 1.2em;
+      }
     }
   }
 }

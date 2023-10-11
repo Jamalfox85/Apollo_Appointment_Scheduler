@@ -92,8 +92,9 @@ export default {
       this.store.updateService(this.model, this.service.id);
       this.closeDrawer();
     },
-    deleteService() {
-      this.store.deleteService(this.service.id);
+    async deleteService() {
+      let error = await this.store.deleteService(this.service.id);
+      error && window.$message.error("Error! You cannot delete services associated with upcoming appointments. Cancel future appointments and try again.", { duration: 6250 });
       this.closeDrawer();
     },
     parseCurrency: (input) => {

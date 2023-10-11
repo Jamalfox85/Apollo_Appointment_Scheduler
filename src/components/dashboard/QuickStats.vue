@@ -32,6 +32,8 @@ export default {
     margin: 0 0.5em;
     position: relative;
     border-radius: 12px;
+    .n-card-header__main {
+    }
     &:hover {
       // transition: 0.1s ease;
       background-color: var(--primary);
@@ -51,6 +53,23 @@ export default {
       font-size: 2em;
       color: var(--primary);
     }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .quickstats_wrapper {
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    .stat-card {
+      width: 45%;
+      margin: 0.5em;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .stat-card {
+    width: 100% !important;
   }
 }
 </style>

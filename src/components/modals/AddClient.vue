@@ -71,4 +71,10 @@ export default {
 .close-bttn {
   margin: 1em;
 }
+
+@media screen and (max-width: 650px) {
+  .n-drawer {
+    width: 300px !important;
+  }
+}
 </style>

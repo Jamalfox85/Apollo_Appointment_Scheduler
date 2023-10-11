@@ -66,10 +66,9 @@ export default {
 
 @media screen and (max-width: 1100px) {
   .dashboard_wrapper {
-    flex-direction: column;
-    .dashboard-left {
-      width: 100%;
-      margin-bottom: 0.5em;
+    .dashboard-row {
+      flex-direction: column;
+      align-items: center;
     }
   }
 }

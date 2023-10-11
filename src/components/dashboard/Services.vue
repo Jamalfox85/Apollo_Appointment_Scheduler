@@ -46,7 +46,10 @@ export default {
   computed: {
     getServiceData() {
       let services = this.store.getServiceData;
-      let topServices = services.slice(0, 4);
+      let sortedServices = services.sort((a, b) => {
+        return b.price - a.price;
+      });
+      let topServices = sortedServices.slice(0, 4);
       return topServices;
     },
   },
@@ -157,5 +160,12 @@ export default {
 }
 .close-bttn {
   margin: 1em;
+}
+
+@media screen and (max-width: 750px) {
+  .service-card {
+    width: 100% !important;
+    margin: 0.5em !important;
+  }
 }
 </style>
